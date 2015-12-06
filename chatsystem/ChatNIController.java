@@ -20,7 +20,7 @@ public class ChatNIController {
     /**
      * Constructeur
      */
-    public ChatNIController(Chat localChatSystem, Userlist chatModel) {
+    public ChatNIController(Chat localChatSystem, UserList chatModel) {
         this.chatSystem = localChatSystem;
         this.chatModel = chatModel ;
                

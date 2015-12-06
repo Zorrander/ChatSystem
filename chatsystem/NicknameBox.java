@@ -18,7 +18,7 @@ public class NicknameBox extends ViewComponent {
         
     }
     
-    public onButtonConnectClick() {
+    public void onButtonConnectClick() {
         parentView.connect(name);
     }
     

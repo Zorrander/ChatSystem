@@ -17,7 +17,7 @@ public class DisconnectView implements SuperView {
         this.chatController = chatController ; 
     }
     
-    public connect(String nickname){
+    public void connect(String nickname){
         /*
             Broadcast message hello
         */
