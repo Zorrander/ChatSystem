@@ -1,22 +1,21 @@
 package chatsystem;
 
-import java.util.ArrayList;
-import java.util.Observable ;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /** Implementation du pattern observer, avec l'extension de Observable */
-public class UserList extends Observable {
+public class UserList {
 
-		/** On garde le nombre d'utilisateur en ligne en permanence	*/
-		public static int nbUser ;
-		/** On crée une userlist null, on l'initialisera dans le constructeur */
-		private static ArrayList<User> usersList = null ;
+    /** On garde le nombre d'utilisateur en ligne en permanence	*/
+    public static int nbUser ;
+    /** On crée une userlist null, on l'initialisera dans le constructeur */
+    private static ObservableList<User> usersList = null ;
 		
 	
-		
-		/** Constructeur privé */
+    /** Constructeur privé */
 		private UserList() {
 			nbUser = 0 ;
-			usersList = new ArrayList<User>() ;
+			usersList = FXCollections.observableArrayList() ;
 			//addObserver(ViewComponent) ;
 			//setChanged() ;			
 		}
@@ -31,16 +30,21 @@ public class UserList extends Observable {
 		
 		public void addViewListener(User newUser) {
 			usersList.add(newUser) ;
-			nbUser++ ; 
-			notifyObservers(instanceUserList) ;
+			nbUser++ ; 			
 		}
 		
 		public void deleteViewListener(User oldUser) {
 			usersList.remove(oldUser) ;
-			nbUser-- ;
-			notifyObservers(instanceUserList) ;
+			nbUser-- ;			
 		}
 		
+                    /**
+     * Returns the data as an observable list of Persons. 
+     * @return
+     */
+    public ObservableList<User> getUserData() {
+        return usersList ;
+    }
 		
 }
 
