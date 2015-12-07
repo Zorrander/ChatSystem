@@ -17,8 +17,8 @@ public class UserList extends Observable {
 		private UserList() {
 			nbUser = 0 ;
 			usersList = new ArrayList<User>() ;
-			addObserver(ViewComponent) ;
-			setChanged() ;			
+			//addObserver(ViewComponent) ;
+			//setChanged() ;			
 		}
 		
 		/** Implementation du pattern singleton pour éviter qu'il n'y ait plusieur listes	*/

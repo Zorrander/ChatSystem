@@ -5,10 +5,6 @@
  */
 package chatsystem;
 
-/**
- *
- * @author Alexandre
- */
 public class DisconnectState implements State{
     public void doAction(Context context) {
       System.out.println("Player is in start state");
@@ -17,5 +13,9 @@ public class DisconnectState implements State{
 
    public String toString(){
       return "Start State";
+   }
+   
+   public void updateContext(Context context,State newState){
+       context.setState(newState);
    }
 }

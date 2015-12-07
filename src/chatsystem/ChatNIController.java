@@ -13,39 +13,27 @@ import common.Message;
 public class ChatNIController {
 
     private Chat chatSystem;
-    
-    private ViewComponent chatView = null;
-    private UserList chatModel = null ;
-
     /**
      * Constructeur
      */
-    public ChatNIController(Chat localChatSystem, UserList chatModel) {
+    public ChatNIController(Chat localChatSystem) {
         this.chatSystem = localChatSystem;
-        this.chatModel = chatModel ;
-               
-        addListenersToModel() ;
-       
     }
 
-    public void addListenersToModel (){
-        chatModel.addViewListener(chatView);
-    }
-    }
+
     /**
      * Send a message
      *
-     * @param msg contient MsgType msgType; String textContent; String sender;
+     * @param msg contient MsgType msgType 
+     * @param destinataire destinaire du message 
      * @throws IOException
      */
     public void send(Message msg, String destinataire) throws IOException {
 
-        InetAddress serveur = InetAddress.getByName("255.255.255.255");
-
+        InetAddress serveur = InetAddress.getByName("destinataire");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(baos);
         oos.writeObject(msg);
-
         byte[] buf = baos.toByteArray();
 
         /*
@@ -66,38 +54,31 @@ public class ChatNIController {
     }
 
     /**
-     * @param args
-     */
-    /**
      * Receive a message
      *
-     * @param : none < le socket est défini dans le main >
-     *
-     * @return : l'objet Message reçu
+     * @param socket le socket est défini dans le main  
+     * @return Message l'objet Message reçu
      * @throws IOException
      * @throws ClassNotFoundException
      */
     public static Message receive(DatagramSocket socket) throws IOException, ClassNotFoundException {
 
         /*
- * Définition de la taille du buffer
+        * Définition de la taille du buffer
          */
         byte[] buf = new byte[1500];
 
         /*
- * Création du packet à recevoir
+        * Création du packet à recevoir
          */
         DatagramPacket packet = new DatagramPacket(buf, buf.length);
 
         /*
- * Recepetion du paquet		 
+        * Recepetion du paquet		 
          */
         socket.receive(packet);
-
         ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(packet.getData()));
-
         Message messageRecu = (Message) ois.readObject();
-
         ois.close();
 
         return messageRecu;
