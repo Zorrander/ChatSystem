@@ -3,13 +3,13 @@ package chatsystem;
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.SocketException;
-<<<<<<< HEAD
+
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
-=======
+
 import javafx.stage.Stage;
->>>>>>> origin/master
+
 
 public class Chat {
 
@@ -53,41 +53,12 @@ public class Chat {
     public int getNumPort() {
         return this.numPort;
     }
-<<<<<<< HEAD
-    
-    /**
-     * @return la vue du chat
-     */
-    public DisconnectView getCurrentView() {
-        return this.chatView;
-    }
+
     
     public ObservableList<User> getUserData() {
         return this.chatModel.getUserData() ;
     }
     
-    /**
- * Shows the person overview inside the root layout.
- */
-public void showUserListView() {
-    try {
-        // Load person overview.
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(Chat.class.getResource("UserListView.fxml"));
-        AnchorPane userListView = (AnchorPane) loader.load();
 
-        // Set person overview into the center of root layout.
-        ConnectView.setCenter(userListView);
-
-        // Give the controller access to the main app.
-        UserListViewController controller = loader.getController();
-        controller.setMainChat(this);
-
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
-}
-=======
->>>>>>> origin/master
 
 }

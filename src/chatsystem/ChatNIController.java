@@ -21,7 +21,7 @@ public class ChatNIController {
     }
 
     public void updateContext(String nickname) throws IOException{
-        ConnectState newState = new ConnectState(nickname, this);
+        ConnectState newState = new ConnectState(nickname,this);
         newState.updateContext(chatSystem.currentContext , newState);        
     }
     /**
@@ -85,6 +85,10 @@ public class ChatNIController {
         ois.close();
 
         return messageRecu;
+    }
+    
+    public Chat getChat(){
+        return this.chatSystem;
     }
 
 }
