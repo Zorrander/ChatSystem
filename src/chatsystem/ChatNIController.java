@@ -20,7 +20,10 @@ public class ChatNIController {
         this.chatSystem = localChatSystem;
     }
 
-
+    public void updateContext(String nickname) throws IOException{
+        ConnectState newState = new ConnectState(nickname, this);
+        newState.updateContext(chatSystem.currentContext , newState);        
+    }
     /**
      * Send a message
      *

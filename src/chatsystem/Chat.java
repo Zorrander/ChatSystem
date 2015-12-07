@@ -2,41 +2,38 @@ package chatsystem;
 
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import javafx.stage.Stage;
 
 public class Chat {
 
     private int numPort = 2042;
 
     private static Chat instance = null;
-    private static Context currentContext ;
-    private DisconnectView chatView = null;
+    public static Context currentContext ;
+    public static Stage window ;
     private UserList chatModel = null ;
 
-    private Chat() throws SocketException {
-        //Création d'un socket pour envoyer ET recevoir          
+    private Chat(Stage primaryStage) throws SocketException {
+        //Création d'un socket pour envoyer ET recevoir 
+        this.window = primaryStage ;
         DatagramSocket socket = new DatagramSocket(numPort);
-        
-        //initialisation du contexte        
-        Context currentContext = new Context();
-        DisconnectState currentState = new DisconnectState();
-        currentState.doAction(currentContext);        
-        
-        //initialisation du modèle
-        this.chatModel = UserList.getInstance();
         
         //initialisation du controleur
         ChatNIController controller = new ChatNIController(this);
         
+        //initialisation du contexte        
+        currentContext = new Context();
+        DisconnectState currentState = new DisconnectState(controller);
+        currentState.updateContext(currentContext, currentState);        
         
-        //initialisation de la vue
-        this.chatView = new DisconnectView(controller);
-        
+        //initialisation du modèle
+        this.chatModel = UserList.getInstance();   
     }
 
-    public static Chat getInstance() throws SocketException {
+    public static Chat getInstance(Stage primaryStage) throws SocketException {
 
         if (instance == null) {
-            instance = new Chat();
+            instance = new Chat(primaryStage);
         }
 
         return instance;
@@ -48,13 +45,6 @@ public class Chat {
      */
     public int getNumPort() {
         return this.numPort;
-    }
-    
-    /**
-     * @return la vue du chat
-     */
-    public DisconnectView getCurrentView() {
-        return this.chatView;
     }
 
 }

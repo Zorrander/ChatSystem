@@ -55,16 +55,7 @@ public class DisconnectView implements SuperView {
     public void connect(String nickname) throws IOException{
         
         //Update context state 
+        chatController.updateContext(nickname); 
         
-        
-        //Broadcast message hello
-        Message coucou;
-        coucou = new Message(common.Message.MsgType.HELLO,"",nickname);
-        chatController.send(coucou, "255.255.255.255");
-        
-        //Listening Hello replies and MAJ user list
-            //reception
-            
-            //mise à jour
     }
 }
