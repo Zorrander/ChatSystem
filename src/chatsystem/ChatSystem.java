@@ -17,8 +17,8 @@ public class ChatSystem extends Application {
     public void start(Stage primaryStage) throws SocketException {
        
         Chat monChat ;       
-        monChat = Chat.getInstance() ;   
-        monChat.getCurrentView().startView(primaryStage);
+        monChat = Chat.getInstance(primaryStage) ;   
+        
     }
 
     /**

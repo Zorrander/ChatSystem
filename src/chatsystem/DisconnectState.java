@@ -5,7 +5,19 @@
  */
 package chatsystem;
 
+import javafx.stage.Stage;
+
 public class DisconnectState implements State{
+    
+    private DisconnectView chatView = null;
+    
+    public DisconnectState(ChatNIController controller) {
+        
+        //initialisation de la vue
+        this.chatView = new DisconnectView(controller);
+        this.chatView.startView(Chat.window);
+    }
+    
     public void doAction(Context context) {
       System.out.println("Player is in start state");
       context.setState(this);	
