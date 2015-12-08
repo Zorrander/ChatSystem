@@ -1,18 +1,20 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package chatsystem;
 
 import java.io.*;
 import java.net.*;
-
+import javafx.fxml.FXML;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.Button;
 import common.Message;
 
 public class ChatNIController {
 
     private Chat chatSystem;
+    @FXML
+    private Button sendButton;
+    @FXML
+    private TextArea messageToSend;
     /**
      * Constructeur
      */
@@ -20,6 +22,8 @@ public class ChatNIController {
         this.chatSystem = localChatSystem;
     }
 
+   
+    
     public void updateContext(String nickname) throws IOException{
         ConnectState newState = new ConnectState(nickname,this);
         newState.updateContext(chatSystem.currentContext , newState);        

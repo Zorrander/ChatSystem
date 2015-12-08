@@ -5,10 +5,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-/**
- *
- * @author Kray
- */
+
 public class UserListViewController extends ViewComponent{
     
     @FXML
@@ -32,6 +29,15 @@ public class UserListViewController extends ViewComponent{
      */
     public UserListViewController() {
     }
+    
+    private void showMessageBox(User user) {
+    if (user != null) {
+        
+    } else {
+        
+    }
+}
+    
      /**
      * Initializes the controller class. This method is automatically called
      * after the fxml file has been loaded.
@@ -39,16 +45,18 @@ public class UserListViewController extends ViewComponent{
     
     @FXML
     private void initialize() {
-        // Initialize the person table with the two columns.
+        // Initialize the userList with the two columns.
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
         ipAdressColumn.setCellValueFactory(cellData -> cellData.getValue().getAdressProperty());
+        
+        // Listen for selection changes and show a chat box.
+          userTable.getSelectionModel().selectedItemProperty().addListener(
+            (observable, oldValue, newValue) -> showMessageBox(newValue));
     }
 
     /**
      * Is called by the main application to give a reference back to itself.
-     * 
      * @param mainChat
-     * 
      */
     public void setMainChat(Chat mainChat) {
         this.mainChat = mainChat;

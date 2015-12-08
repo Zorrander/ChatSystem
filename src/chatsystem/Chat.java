@@ -42,23 +42,15 @@ public class Chat {
         if (instance == null) {
             instance = new Chat(primaryStage);
         }
-
         return instance;
 
     }
 
-    /**
-     * @return le numéro de port
-     */
     public int getNumPort() {
         return this.numPort;
     }
-
     
     public ObservableList<User> getUserData() {
         return this.chatModel.getUserData() ;
     }
-    
-
-
 }
