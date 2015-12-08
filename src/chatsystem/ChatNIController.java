@@ -11,28 +11,25 @@ import common.Message;
 public class ChatNIController {
 
     private Chat chatSystem;
-    @FXML
-    private Button sendButton;
-    @FXML
-    private TextArea messageToSend;
-    /**
-     * Constructeur
-     */
+
     public ChatNIController(Chat localChatSystem) {
         this.chatSystem = localChatSystem;
     }
 
-   
-    
-    public void updateContext(String nickname) throws IOException{
-        ConnectState newState = new ConnectState(nickname,this);
-        newState.updateContext(chatSystem.currentContext , newState);        
+    @FXML
+    private void initialize() {
     }
+
+    public void updateContext(String nickname) throws IOException {
+        ConnectState newState = new ConnectState(nickname, this);
+        newState.updateContext(chatSystem.currentContext, newState);
+    }
+
     /**
      * Send a message
      *
-     * @param msg contient MsgType msgType 
-     * @param destinataire destinaire du message 
+     * @param msg contient MsgType msgType
+     * @param destinataire destinaire du message
      * @throws IOException
      */
     public void send(Message msg, String destinataire) throws IOException {
@@ -43,27 +40,21 @@ public class ChatNIController {
         oos.writeObject(msg);
         byte[] buf = baos.toByteArray();
 
-        /*
-         * création du datagramme
-         */
+        // création du datagramme         
         DatagramPacket dataToSent = new DatagramPacket(buf, buf.length, serveur, chatSystem.getNumPort());
         DatagramSocket socket = new DatagramSocket();
 
-        /*
-	 * envoie du message
-         */
+        // envoie du message         
         socket.send(dataToSent);
 
-        /*
-	 * fermeture du socket
-         */
+        //fermeture du socket         
         socket.close();
     }
 
     /**
      * Receive a message
      *
-     * @param socket le socket est défini dans le main  
+     * @param socket le socket est défini dans le main
      * @return Message l'objet Message reçu
      * @throws IOException
      * @throws ClassNotFoundException
@@ -90,8 +81,8 @@ public class ChatNIController {
 
         return messageRecu;
     }
-    
-    public Chat getChat(){
+
+    public Chat getChat() {
         return this.chatSystem;
     }
 
