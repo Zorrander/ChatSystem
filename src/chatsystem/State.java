@@ -11,4 +11,9 @@ package chatsystem;
  */
 public interface State {
    public void doAction(Context context);
+
+    public UserListViewController getUserListViewController();
+
 }
+
+

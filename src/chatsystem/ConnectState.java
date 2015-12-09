@@ -8,8 +8,9 @@ public class ConnectState implements State {
 
     private String id = null;
     private ChatNIController controllerNI;
+    private UserListViewController controller ;
 
-    public ConnectState(String nickname, ChatNIController controller) throws IOException {
+    public ConnectState(String nickname, ChatNIController controller) throws IOException {        
         this.id = nickname;
         controllerNI = controller;
         controllerNI.getChat().initRootLayout();
@@ -25,7 +26,7 @@ public class ConnectState implements State {
             controllerNI.getChat().getLayout().getItems().set(0, userListView);
 
             // Give the controller access to the main app.
-            UserListViewController controller = loader.getController();
+            controller = loader.getController();
             controller.setMainChat(controllerNI.getChat());
 
         } catch (IOException e) {
@@ -43,14 +44,20 @@ public class ConnectState implements State {
     public ChatNIController getController() {
         return this.controllerNI;
     }
+    
+     public UserListViewController getUserListViewController() {
+        return this.controller;
+    }
 
     @Override
     public String toString() {
-        return "Stop State";
+        return "Connected";
     }
 
     @Override
     public void doAction(Context context) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+    
+    
 }

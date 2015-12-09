@@ -22,6 +22,7 @@ public class Chat {
     public static Stage window;
     private SplitPane rootLayout;
     private UserList chatModel = null;
+    private ChatNIController controller = null ;
 
     private Chat(Stage primaryStage) throws SocketException {
         //Création d'un socket pour envoyer ET recevoir 
@@ -29,7 +30,7 @@ public class Chat {
         DatagramSocket socket = new DatagramSocket(numPort);
 
         //initialisation du controleur
-        ChatNIController controller = new ChatNIController(this);
+        this.controller = new ChatNIController(this);
 
         //initialisation du contexte        
         currentContext = new Context();
@@ -78,5 +79,12 @@ public class Chat {
 
     public ObservableList<User> getUserData() {
         return this.chatModel.getUserData();
+    }
+    
+    public ChatNIController getChatNIController() {
+        return this.controller ;
+    }
+    public String getNickname() {
+    return getChatNIController().getUserNickname() ;
     }
 }

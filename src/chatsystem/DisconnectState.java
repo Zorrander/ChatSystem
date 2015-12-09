@@ -5,8 +5,6 @@
  */
 package chatsystem;
 
-import javafx.stage.Stage;
-
 public class DisconnectState implements State{
     
     private DisconnectView chatView = null;
@@ -18,16 +16,22 @@ public class DisconnectState implements State{
         this.chatView.startView(Chat.window);
     }
     
+    @Override
     public void doAction(Context context) {
       System.out.println("Player is in start state");
       context.setState(this);	
    }
 
    public String toString(){
-      return "Start State";
+      return "Disconnected";
    }
    
    public void updateContext(Context context,State newState){
        context.setState(newState);
    }
+
+    @Override
+    public UserListViewController getUserListViewController() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

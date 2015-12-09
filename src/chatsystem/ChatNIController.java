@@ -11,6 +11,7 @@ import common.Message;
 public class ChatNIController {
 
     private Chat chatSystem;
+    private String userNickname = "";
 
     public ChatNIController(Chat localChatSystem) {
         this.chatSystem = localChatSystem;
@@ -21,8 +22,12 @@ public class ChatNIController {
     }
 
     public void updateContext(String nickname) throws IOException {
+        if (nickname == null) {
+            nickname = "anonymous" ;            
+        }
+        this.userNickname = nickname ;
         ConnectState newState = new ConnectState(nickname, this);
-        newState.updateContext(chatSystem.currentContext, newState);
+        newState.updateContext(Chat.currentContext, newState);
     }
 
     /**
@@ -84,6 +89,10 @@ public class ChatNIController {
 
     public Chat getChat() {
         return this.chatSystem;
+    }
+    
+    public String getUserNickname() {
+        return this.userNickname ;
     }
 
 }

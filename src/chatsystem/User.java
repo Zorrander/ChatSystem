@@ -39,4 +39,9 @@ public class User {
     public void setAdress(String newIpAdress) {
         this.name.set(newIpAdress);
     }
+    
+    @Override
+    public String toString() {
+        return this.name.get() ;
+    }
 }

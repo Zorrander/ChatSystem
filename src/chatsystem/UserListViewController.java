@@ -4,6 +4,8 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -19,13 +21,15 @@ public class UserListViewController extends ViewComponent {
     private TableColumn<User, String> nameColumn;
     @FXML
     private TableColumn<User, String> ipAdressColumn;
+    
+    
 
     @FXML
     private Label nameLabel;
     @FXML
     private Label ipAdressLabel;
 
-    // Reference to the main application. (Chat or UserList...?)
+    // Reference to the main application.    
     private Chat mainChat;
 
     public UserListViewController() {
@@ -56,10 +60,23 @@ public class UserListViewController extends ViewComponent {
                 AnchorPane messageBox = (AnchorPane) loader.load();
 
                 mainChat.getLayout().getItems().set(1, messageBox);
+                
+                MessageBoxController controller = loader.getController();
+                controller.setMainChat(mainChat);
+                controller.setCurrentUser(user) ;
 
             } catch (IOException e) {
             }
         } else {
+            
+        /** Alert alert = new Alert(AlertType.INFORMATION);
+        alert.initOwner(Chat.window);
+        alert.setTitle("Welcome");
+        alert.setHeaderText("Hello");
+        alert.setContentText("Hi there "+mainChat.getNickname()+" please, select a person to discuss with.");
+
+        alert.showAndWait();
+            */
 
         }
     }
@@ -73,6 +90,23 @@ public class UserListViewController extends ViewComponent {
         this.mainChat = mainChat;
         // Add observable list data to the table
         userTable.setItems(mainChat.getUserData());
+    }
+    
+    public User getSelectedUser() {
+        User selectedUser = userTable.getSelectionModel().getSelectedItem();
+        if (selectedUser != null) {
+            return selectedUser ;
+        } else {
+         // Nothing selected.
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.initOwner(Chat.window);
+        alert.setTitle("No Selection");
+        alert.setHeaderText("No Person Selected");
+        alert.setContentText("Please select a person in the table.");
+
+        alert.showAndWait();
+        return null ;
+        }
     }
 
 }

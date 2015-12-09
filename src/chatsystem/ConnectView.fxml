@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<SplitPane dividerPositions="0.29797979797979796" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.40">
+<SplitPane dividerPositions="0.3125" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1">
   <items>
-    <AnchorPane fx:id="leftLayout" prefHeight="160.0" prefWidth="100.0" />
-    <AnchorPane fx:id="rightLayout" prefHeight="400.0" prefWidth="415.0" />
+    <AnchorPane fx:id="leftLayout" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="250.0" SplitPane.resizableWithParent="false" />
+    <AnchorPane fx:id="rightLayout" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="550.0" SplitPane.resizableWithParent="false" />
   </items>
 </SplitPane>

@@ -41,7 +41,7 @@ public class NicknameBox extends ViewComponent {
     /**
      * @return le textField avec l'id
      */
-    public TextField getNicknameField() {
+    public TextField getNicknameField() {        
         return this.nicknameBox;
     }
        
