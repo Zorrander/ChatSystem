@@ -39,22 +39,7 @@ public class MessageBoxController {
          
     }
     
-        public void showMessageBox(User user) {
-        if (user != null) {
-            try {
-                FXMLLoader loader = new FXMLLoader();
-                loader.setLocation(ConnectState.class.getResource("MessageBox.fxml"));
-                AnchorPane messageBox = (AnchorPane) loader.load();
-
-                state.getLayout().getItems().set(1, messageBox);
-                
-                MessageBoxController controller = loader.getController();
-                controller.setCurrentUser(user) ;
-
-            } catch (IOException e) {
-            }
-        } 
-    }
+        
    
        
     public void setState(ConnectState state) {

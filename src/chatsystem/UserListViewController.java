@@ -29,7 +29,7 @@ public class UserListViewController extends ViewComponent {
     @FXML
     private Label ipAdressLabel;
    
-    private ConnectState state;
+    private ConnectState state = null;
 
     public UserListViewController() {
     }
@@ -40,11 +40,7 @@ public class UserListViewController extends ViewComponent {
         nameColumn.setCellValueFactory(cellData -> cellData.getValue().getNameProperty());
         ipAdressColumn.setCellValueFactory(cellData -> cellData.getValue().getAdressProperty());
         // Clear person details.
-        state.getMessageBoxController().showMessageBox(null);
-
-        // Listen for selection changes and show the person details when changed.
-        userTable.getSelectionModel().selectedItemProperty().addListener(
-                (observable, oldValue, newValue) -> state.getMessageBoxController().showMessageBox(newValue));
+      
     }
 
     /**
@@ -70,7 +66,16 @@ public class UserListViewController extends ViewComponent {
     }
      
      public void setState(ConnectState state) {
-        this.state=state;
+        this.state=state;         
     }
+     
+     public void setInteraction() {
+          userTable.setItems(state.getUserData());
+        // Listen for selection changes and show the person details when changed.
+        userTable.getSelectionModel().selectedItemProperty().addListener(
+                (observable, oldValue, newValue) -> state.showMessageBox(newValue));
+        
+        
+     }
 
 }
