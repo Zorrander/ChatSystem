@@ -10,25 +10,17 @@ import common.Message;
 
 public class ChatNIController {
 
-    private Chat chatSystem;
-    private String userNickname = "";
+    private ConnectState state;
+    private final int numPort = 2042;
 
-    public ChatNIController(Chat localChatSystem) {
-        this.chatSystem = localChatSystem;
+    public ChatNIController(ConnectState state) {
+        this.state = state ;
     }
 
     @FXML
     private void initialize() {
     }
 
-    public void updateContext(String nickname) throws IOException {
-        if (nickname == null) {
-            nickname = "anonymous" ;            
-        }
-        this.userNickname = nickname ;
-        ConnectState newState = new ConnectState(nickname, this);
-        newState.updateContext(Chat.currentContext, newState);
-    }
 
     /**
      * Send a message
@@ -46,7 +38,7 @@ public class ChatNIController {
         byte[] buf = baos.toByteArray();
 
         // création du datagramme         
-        DatagramPacket dataToSent = new DatagramPacket(buf, buf.length, serveur, chatSystem.getNumPort());
+        DatagramPacket dataToSent = new DatagramPacket(buf, buf.length, serveur, numPort);
         DatagramSocket socket = new DatagramSocket();
 
         // envoie du message         
@@ -87,12 +79,9 @@ public class ChatNIController {
         return messageRecu;
     }
 
-    public Chat getChat() {
-        return this.chatSystem;
+    public State getState() {
+        return this.state;
     }
-    
-    public String getUserNickname() {
-        return this.userNickname ;
-    }
+  
 
 }

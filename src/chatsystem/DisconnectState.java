@@ -5,33 +5,63 @@
  */
 package chatsystem;
 
-public class DisconnectState implements State{
-    
-    private DisconnectView chatView = null;
-    
-    public DisconnectState(ChatNIController controller) {
-        
+import static chatsystem.Chat.window;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.fxml.FXML;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.layout.AnchorPane;
+
+public class DisconnectState implements State {
+
+    private Context context = null;
+    private DisconnectViewController viewController;
+    private AnchorPane rootLayout;
+
+    public DisconnectState(Context context) {
+        this.context = context;
+       
+        this.initRootLayout();
+
         //initialisation de la vue
-        this.chatView = new DisconnectView(controller);
-        this.chatView.startView(Chat.window);
+        window.setTitle("FakeBook");
+        Scene scene = new Scene(rootLayout);
+        window.setScene(scene);
+        window.show();
     }
-    
-    @Override
-    public void doAction(Context context) {
-      System.out.println("Player is in start state");
-      context.setState(this);	
-   }
 
-   public String toString(){
-      return "Disconnected";
-   }
-   
-   public void updateContext(Context context,State newState){
-       context.setState(newState);
-   }
+    public void initRootLayout()  {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(ConnectState.class.getResource("DisconnectView.fxml"));
+        try {
+            rootLayout = (AnchorPane) loader.load();
+            this.viewController = loader.getController() ;
+            viewController.setState(this);
+
+        } catch (IOException ex) {
+            Logger.getLogger(DisconnectState.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
     @Override
-    public UserListViewController getUserListViewController() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void updateContext(String nickname) {
+        State currentState = context.getState();
+        if (currentState == null) {
+            context.setState(this);
+        } else if (currentState == (this)) {
+            try {
+                context.setState(new ConnectState(context, nickname));
+            } catch (IOException ex) {
+                Logger.getLogger(DisconnectState.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    public Context getContext() {
+        return this.context;
     }
 }

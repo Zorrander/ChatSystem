@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.media.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="chatsystem.DisconnectViewController">
+   <children>
+      <Pane layoutX="200.0" layoutY="100.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <TextField fx:id="nicknameBox" alignment="CENTER" layoutX="300.0" layoutY="379.0" prefHeight="30.0" prefWidth="200.0" />
+            <Button fx:id="connectButton" alignment="CENTER" layoutX="339.0" layoutY="427.0" mnemonicParsing="false" onAction="#connect" prefHeight="30.0" prefWidth="122.0" style="-fx-background-color: #fa1e1e;" text="Connect" textAlignment="CENTER" textFill="WHITE">
+               <font>
+                  <Font name="Star Jedi" size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

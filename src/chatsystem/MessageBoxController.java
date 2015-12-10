@@ -20,11 +20,10 @@ public class MessageBoxController {
     
     private User user ;
     
-    // Reference to the main application.    
-    private Chat mainChat;
+       
+    private ConnectState state;
 
     public MessageBoxController() {
-
     }
 
     @FXML
@@ -32,27 +31,36 @@ public class MessageBoxController {
     }
     
     @FXML
-    private void send() throws IOException {
-        /** On verifie qu'on est dans le bon état, c-à-d connect. */
-        if ( "Connected".equals(Chat.currentContext.getState().toString())) {
-            /** Si c'est le cas (il n'y a pas de raisons que ça ne le soit pas, on peut envoyer notre message
-             *  qui est dans le "prompter"
-             *  Pour le second param on doit le recup dans UserListViewController
-             *  Accessible seulement par Chat -> ConnectState -> UserListViewController
-             */
-            
-            /** Creation du TEXT_MESSAGE a envoyer */
+    public void send() throws IOException {
+        
              Message newMessage = new Message(TEXT_MESSAGE, prompter.getText()) ;
              
-             mainChat.getChatNIController().send(newMessage, user.toString());
-        }      
+            state.getController().send(newMessage, user.toString());
+         
     }
     
-    public void setMainChat(Chat mainChat) {
-        this.mainChat = mainChat;
-        // Add observable list data to the table        
-    }
+        public void showMessageBox(User user) {
+        if (user != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader();
+                loader.setLocation(ConnectState.class.getResource("MessageBox.fxml"));
+                AnchorPane messageBox = (AnchorPane) loader.load();
 
+                state.getLayout().getItems().set(1, messageBox);
+                
+                MessageBoxController controller = loader.getController();
+                controller.setCurrentUser(user) ;
+
+            } catch (IOException e) {
+            }
+        } 
+    }
+   
+       
+    public void setState(ConnectState state) {
+        this.state=state;
+    }
+    
     void setCurrentUser(User user) {
          this.user = user ;
     }
