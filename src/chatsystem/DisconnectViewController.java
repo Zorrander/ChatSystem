@@ -1,9 +1,15 @@
 package chatsystem;
 
+
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 public class DisconnectViewController {
 
@@ -28,6 +34,21 @@ public class DisconnectViewController {
         //Update context state 
         state.updateContext(name); 
         
+    }
+    
+    public void setEnterAction(){
+        nicknameBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode().equals(KeyCode.ENTER)) {
+                    try {
+                        connect();
+                    } catch (IOException ex) {
+                        Logger.getLogger(DisconnectViewController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        });
     }
     
     public void setState(DisconnectState state) {

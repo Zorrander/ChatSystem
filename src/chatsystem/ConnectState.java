@@ -79,7 +79,7 @@ public class ConnectState implements State {
                 MessageBoxController controller = loader.getController();
                 controller.setState(this);
                 controller.setCurrentUser(user) ;
-                
+                controller.setEnterAction();
 
             } catch (IOException e) {
             }

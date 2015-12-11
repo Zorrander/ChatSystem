@@ -40,7 +40,7 @@ public class DisconnectState implements State {
             rootLayout = (AnchorPane) loader.load();
             this.viewController = loader.getController() ;
             viewController.setState(this);
-
+            viewController.setEnterAction();
         } catch (IOException ex) {
             Logger.getLogger(DisconnectState.class.getName()).log(Level.SEVERE, null, ex);
         }
