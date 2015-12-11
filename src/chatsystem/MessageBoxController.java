@@ -6,10 +6,14 @@ import java.io.IOException;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 
 public class MessageBoxController {
+    
+    @FXML
+    private ListView<Message> messageTable ;
 
     @FXML
     private TextArea messageView;
@@ -48,8 +52,8 @@ public class MessageBoxController {
     
     void setCurrentUser(User user) {
          this.user = user ;
+         messageTable.setItems(user.getMessageList());  
     }
-
     
 
 }

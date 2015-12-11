@@ -51,6 +51,16 @@ public class UserList {
         usersList.remove(oldUser);
         nbUser--;
     }
+    
+    public User getUser(User newUser) {
+        for (User iterator : usersList) {
+            if (iterator.toString() == newUser.toString()) {
+                return iterator;
+            }
+        }
+        // If we haven't found anything
+        return null ;
+    }
 
     /**
      * Returns the data as an observable list of Persons.

@@ -13,7 +13,7 @@ import javafx.concurrent.Task;
 public class ChatNIController {
 
     private ConnectState state;
-    private final int numPort = 2043;
+    private final int numPort = 2042;
     private DatagramSocket socket ;
     private SocketListener socketListener ;
 
@@ -40,8 +40,8 @@ public class ChatNIController {
      * @throws IOException
      */
     public void send(Message msg, String destinataire) throws IOException {
-
-        InetAddress serveur = InetAddress.getByName("destinataire");
+       
+        InetAddress serveur = InetAddress.getByName(destinataire);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(baos);
         oos.writeObject(msg);
@@ -63,6 +63,15 @@ public class ChatNIController {
         Message hello = new Message(HELLO,"") ;
         try {
             this.send(hello,"255.255.255.255") ;
+        } catch (IOException ex) {
+            Logger.getLogger(ChatNIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+      public void sendHelloReply(String ipAdress) {
+        Message helloReply = new Message(HELLO_REPLY,"") ;
+        try {
+            this.send(helloReply,ipAdress) ;
         } catch (IOException ex) {
             Logger.getLogger(ChatNIController.class.getName()).log(Level.SEVERE, null, ex);
         }
