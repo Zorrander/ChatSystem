@@ -43,8 +43,7 @@ public class MessageBoxController {
         prompter.clear();
         state.getController().send(newMessage, user.getAdress());      
          
-    }
-    
+    }    
         
    
        

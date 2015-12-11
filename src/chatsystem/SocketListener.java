@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,14 +60,20 @@ public class SocketListener implements Runnable {
                          * utiles pour recup les infos
                          */
                         User newUser;
+                         
                         if (messageRecu.getSender() == null) {
                             newUser = new User("anonyme", packet.getAddress().getHostAddress());
                         } else {
                             newUser = new User(messageRecu.getSender(), packet.getAddress().getHostAddress());
                         }
+                        boolean isOurs = ( packet.getAddress().getHostAddress().equals(InetAddress.getLocalHost().getHostAddress()) );
+                        
+                        
+                        if ( !isOurs ) {
+                                
                         switch (messageRecu.getType()) {
                             case HELLO_REPLY:
-                                //DEBUG
+                                //DEBUG                               
                                 System.out.println("Recu un HELLO_REPLY de " + newUser.getName() + "@" + newUser.getAdress());
 
                                 controller.getState().getUserList().addViewListener(newUser);
@@ -88,12 +95,14 @@ public class SocketListener implements Runnable {
                                     //Si l'USER existe bel et bien dans notre liste, on rajoute le message !
                                     if (inList != null) {
                                         inList.addMessage(messageRecu);
+                                    } else {
+                                        controller.getState().getUserList().addViewListener(newUser); 
+                                        newUser.addMessage(messageRecu) ;
                                     }
                                 }
                                 break;
                             case BYE:
                                 System.out.println("Recu un BYE de " + newUser.getName() + "@" + newUser.getAdress());
-
                                 controller.getState().getUserList().deleteViewListener(newUser);
                                 //@TODO : Afficher une notification de déconnection !
                                 break;
@@ -107,6 +116,8 @@ public class SocketListener implements Runnable {
                                 //@TODO - Not Supported Yet
                                 break;
                         } 
+                        
+                        }
                     
                         ois.close();
                     } catch (IOException | ClassNotFoundException ex) {

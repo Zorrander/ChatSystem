@@ -16,7 +16,7 @@ import javafx.stage.Stage;
 public class UserListViewController extends ViewComponent {
 
     @FXML
-    private TableView<User> userTable;  
+    private TableView<User> userTable;
     @FXML
     private TableColumn<User, String> nameColumn;
     @FXML
@@ -64,6 +64,10 @@ public class UserListViewController extends ViewComponent {
         userTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> state.showMessageBox(newValue));
 
+    }
+
+    public void deleteUser(User user) {
+        userTable.getItems().remove(user);
     }
 
 }

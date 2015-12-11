@@ -47,7 +47,7 @@ public class UserList {
 
     public void deleteViewListener(User oldUser) {
         usersList.remove(oldUser) ;
-        nbUser--;
+        nbUser-- ;
     }
     
     public User getUser(User newUser) {
