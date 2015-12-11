@@ -12,11 +12,7 @@
             <items>
                 <AnchorPane minHeight="-Infinity" minWidth="-Infinity">
                     <children>
-                        <TextArea fx:id="messageView" editable="false" minHeight="-Infinity" minWidth="-Infinity" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
-                     <cursor>
-                        <Cursor fx:constant="DEFAULT" />
-                     </cursor></TextArea>
-                  <ListView fx:id="messageTable" layoutX="74.0" layoutY="41.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                  <ListView fx:id="messageTable" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                     </children>
                <cursor>
                   <Cursor fx:constant="DEFAULT" />
@@ -25,7 +21,7 @@
                 <AnchorPane minHeight="-Infinity" minWidth="-Infinity">
                     <children>
                         <Button fx:id="sendButton" layoutX="224.0" layoutY="137.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#send" prefHeight="25.0" prefWidth="100.0" text="Send" AnchorPane.bottomAnchor="15.0" />
-                        <TextArea fx:id="prompter" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="110.0" prefWidth="528.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
+                        <TextArea fx:id="prompter" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="110.0" prefWidth="528.0" promptText="Type Here" wrapText="true" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" />
                     </children>
                 </AnchorPane>
             </items>

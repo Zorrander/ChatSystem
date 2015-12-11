@@ -77,7 +77,9 @@ public class ConnectState implements State {
                 this.getLayout().getItems().set(1, messageBox);
                 
                 MessageBoxController controller = loader.getController();
+                controller.setState(this);
                 controller.setCurrentUser(user) ;
+                
 
             } catch (IOException e) {
             }

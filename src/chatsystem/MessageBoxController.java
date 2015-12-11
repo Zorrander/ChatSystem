@@ -22,6 +22,8 @@ public class MessageBoxController {
     @FXML
     private Button sendButton;
     
+    Message newMessage ; 
+    
     private User user ;
     
        
@@ -35,11 +37,11 @@ public class MessageBoxController {
     }
     
     @FXML
-    public void send() throws IOException {
-        
-             Message newMessage = new Message(TEXT_MESSAGE, prompter.getText()) ;
-             
-            state.getController().send(newMessage, user.toString());
+    public void send() throws IOException {  
+               
+        newMessage = new Message(TEXT_MESSAGE, prompter.getText(),state.getId()) ; 
+        prompter.clear();
+        state.getController().send(newMessage, user.getAdress());      
          
     }
     

@@ -23,10 +23,8 @@ public class UserList {
     private UserList() {
         nbUser = 0;
         usersList = FXCollections.observableArrayList();
-
-        usersList.add(new User("Kévin", "10.10.255.255"));
-        usersList.add(new User("Alexis", "10.20.255.255"));
-        usersList.add(new User("Alexandre", "10.10.255.255"));
+        usersList.add(new User("broadcast", "255.255.255.255"));
+        
     }
 
     /**
@@ -48,13 +46,13 @@ public class UserList {
     }
 
     public void deleteViewListener(User oldUser) {
-        usersList.remove(oldUser);
+        usersList.remove(oldUser) ;
         nbUser--;
     }
     
     public User getUser(User newUser) {
         for (User iterator : usersList) {
-            if (iterator.toString() == newUser.toString()) {
+            if (iterator.toString().equals(newUser.toString())) {
                 return iterator;
             }
         }

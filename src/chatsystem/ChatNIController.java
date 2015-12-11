@@ -51,16 +51,13 @@ public class ChatNIController {
         DatagramPacket dataToSent = new DatagramPacket(buf, buf.length, serveur, numPort);     
 
         // envoie du message         
-        socket.send(dataToSent);
-
-        //fermeture du socket         
-        socket.close();
+        socket.send(dataToSent);      
     }
 
     
     
     private void sendHello() {
-        Message hello = new Message(HELLO,"") ;
+        Message hello = new Message(HELLO,"",state.getId()) ;
         try {
             this.send(hello,"255.255.255.255") ;
         } catch (IOException ex) {
@@ -69,7 +66,7 @@ public class ChatNIController {
     }
     
       public void sendHelloReply(String ipAdress) {
-        Message helloReply = new Message(HELLO_REPLY,"") ;
+        Message helloReply = new Message(HELLO_REPLY,"",state.getId()) ;
         try {
             this.send(helloReply,ipAdress) ;
         } catch (IOException ex) {
