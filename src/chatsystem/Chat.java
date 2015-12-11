@@ -5,6 +5,7 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
@@ -12,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class Chat {
 
@@ -28,6 +30,13 @@ public class Chat {
         currentContext = new Context(this);
         DisconnectState currentState = new DisconnectState(currentContext);
         currentState.updateContext("");
+        
+         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent we) {
+                System.exit(0);
+            }
+        });
     }
 
     public static Chat getInstance(Stage primaryStage) throws SocketException {
@@ -37,6 +46,8 @@ public class Chat {
       
         }
         return instance;
+        
+        
 
     }
 

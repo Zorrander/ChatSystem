@@ -13,7 +13,7 @@ public class ConnectState implements State {
     private String id = null;
     private Context context = null;
     
-    private UserList userList ;
+    private final UserList userList ;
     private ChatNIController controllerNI = null;
     private UserListViewController userListController = null;
     private MessageBoxController messageController = null;
@@ -36,7 +36,7 @@ public class ConnectState implements State {
     /**
      * Initializes the root layout.
      */
-    public void initRootLayout() {
+    private void initRootLayout() {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
@@ -48,11 +48,10 @@ public class ConnectState implements State {
             
             window.setScene(scene);
         } catch (IOException e) {
-            e.printStackTrace();
         }
     } 
     
-     public void showUserListView() {
+     private void showUserListView() {
         try {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(ConnectState.class.getResource("UserListView.fxml"));
@@ -116,5 +115,9 @@ public class ConnectState implements State {
     
    public ObservableList<User> getUserData() {
         return this.userList.getUserData();
+    }
+
+    public UserList getUserList() {
+        return userList;
     }
 }

@@ -3,23 +3,33 @@ package chatsystem;
 import java.io.*;
 import java.net.*;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.Button;
 import common.Message;
+import static common.Message.MsgType.* ;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 
 public class ChatNIController {
 
     private ConnectState state;
-    private final int numPort = 2042;
+    private final int numPort = 2043;
+    private DatagramSocket socket ;
+    private SocketListener socketListener ;
 
     public ChatNIController(ConnectState state) {
         this.state = state ;
-    }
-
-    @FXML
-    private void initialize() {
-    }
+        try {
+            this.socket = new DatagramSocket(numPort) ;
+            this.socketListener = new SocketListener(this, socket) ;
+            Thread t = new Thread(socketListener) ;
+            t.start();
+        } catch (SocketException ex) {
+            Logger.getLogger(ChatNIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //Envoi d'un HELLO à la communauté
+        this.sendHello() ;
+    }  
 
 
     /**
@@ -38,8 +48,7 @@ public class ChatNIController {
         byte[] buf = baos.toByteArray();
 
         // création du datagramme         
-        DatagramPacket dataToSent = new DatagramPacket(buf, buf.length, serveur, numPort);
-        DatagramSocket socket = new DatagramSocket();
+        DatagramPacket dataToSent = new DatagramPacket(buf, buf.length, serveur, numPort);     
 
         // envoie du message         
         socket.send(dataToSent);
@@ -48,40 +57,21 @@ public class ChatNIController {
         socket.close();
     }
 
-    /**
-     * Receive a message
-     *
-     * @param socket le socket est défini dans le main
-     * @return Message l'objet Message reçu
-     * @throws IOException
-     * @throws ClassNotFoundException
-     */
-    public static Message receive(DatagramSocket socket) throws IOException, ClassNotFoundException {
-
-        /*
-        * Définition de la taille du buffer
-         */
-        byte[] buf = new byte[1500];
-
-        /*
-        * Création du packet à recevoir
-         */
-        DatagramPacket packet = new DatagramPacket(buf, buf.length);
-
-        /*
-        * Recepetion du paquet		 
-         */
-        socket.receive(packet);
-        ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(packet.getData()));
-        Message messageRecu = (Message) ois.readObject();
-        ois.close();
-
-        return messageRecu;
+    
+    
+    private void sendHello() {
+        Message hello = new Message(HELLO,"") ;
+        try {
+            this.send(hello,"255.255.255.255") ;
+        } catch (IOException ex) {
+            Logger.getLogger(ChatNIController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-
-    public State getState() {
+       
+    public ConnectState getState() {
         return this.state;
     }
+    
   
 
 }
