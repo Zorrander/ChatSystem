@@ -85,6 +85,14 @@ public class ConnectState implements State {
             }
         } 
     }
+     
+     public void deleteUser(User newUser) {
+         User oldUser = this.getUserList().getUser(newUser) ;
+         this.getUserList().deleteViewListener(oldUser);
+     }
+     public User getUser(User newUser) {
+         return this.getUserList().getUser(newUser);
+     }
 
     @Override
     public void updateContext(String nickname) {

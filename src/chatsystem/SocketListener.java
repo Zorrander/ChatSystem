@@ -91,7 +91,7 @@ public class SocketListener implements Runnable {
 
                                 String text = messageRecu.getContent();
                                 if ((text != null) && !text.isEmpty()) {
-                                    User inList = controller.getState().getUserList().getUser(newUser);
+                                    User inList = controller.getState().getUser(newUser) ;
                                     //Si l'USER existe bel et bien dans notre liste, on rajoute le message !
                                     if (inList != null) {
                                         inList.addMessage(messageRecu);
@@ -102,8 +102,8 @@ public class SocketListener implements Runnable {
                                 }
                                 break;
                             case BYE:
-                                System.out.println("Recu un BYE de " + newUser.getName() + "@" + newUser.getAdress());
-                                controller.getState().getUserList().deleteViewListener(newUser);
+                                System.out.println("Recu un BYE de " + newUser.getName() + "@" + newUser.getAdress());                               
+                                controller.getState().deleteUser(newUser) ;
                                 //@TODO : Afficher une notification de déconnection !
                                 break;
                             case FILE_REQUEST:
