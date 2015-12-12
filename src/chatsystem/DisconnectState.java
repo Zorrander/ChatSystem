@@ -60,6 +60,11 @@ public class DisconnectState implements State {
             }
         }
     }
+    
+      @Override
+    public boolean isConnected() {
+        return false ; //To change body of generated methods, choose Tools | Templates.
+    }
 
     public Context getContext() {
         return this.context;

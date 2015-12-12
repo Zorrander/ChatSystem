@@ -19,21 +19,22 @@ public class Chat {
 
     private static Chat instance = null;
     public static Context currentContext;
-    
+
     public static Stage window;
 
     private Chat(Stage primaryStage) throws SocketException {
-        
+
         this.window = primaryStage;
 
         //initialisation du contexte        
         currentContext = new Context(this);
         DisconnectState currentState = new DisconnectState(currentContext);
         currentState.updateContext("");
-        
-         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent we) {
+                currentContext.disconnect();
                 System.exit(0);
             }
         });
@@ -43,16 +44,13 @@ public class Chat {
 
         if (instance == null) {
             instance = new Chat(primaryStage);
-      
+
         }
         return instance;
-        
-        
 
     }
 
     /*public ObservableList<User> getUserData() {
         return this.chatModel.getUserData();
     }*/
-    
 }

@@ -1,6 +1,5 @@
 package chatsystem;
 
-
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -12,14 +11,13 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 public class DisconnectViewController {
-
-  
-    private DisconnectState state ;
+    
+    private DisconnectState state;
     @FXML
-    private Button connectButton ;
+    private Button connectButton;
     
     @FXML
-    private TextField nicknameBox ;
+    private TextField nicknameBox;
     
     public DisconnectViewController() {
     }
@@ -29,14 +27,19 @@ public class DisconnectViewController {
     }
     
     @FXML
-    public void connect() throws IOException{
-         String name = nicknameBox.getCharacters().toString();
+    public void connect() throws IOException {
+        String name = nicknameBox.getCharacters().toString();
         //Update context state 
-        state.updateContext(name); 
-        
+        if (!(name.isEmpty())) {
+            //Update context state 
+            state.updateContext(name);            
+        } else {
+            connectButton.requestFocus();
+            nicknameBox.setPromptText("Enter a nickname");
+        }
     }
     
-    public void setEnterAction(){
+    public void setEnterAction() {
         nicknameBox.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent ke) {
@@ -52,6 +55,6 @@ public class DisconnectViewController {
     }
     
     public void setState(DisconnectState state) {
-        this.state=state;
+        this.state = state;
     }
 }

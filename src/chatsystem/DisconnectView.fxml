@@ -13,7 +13,7 @@
    <children>
       <Pane layoutX="200.0" layoutY="100.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@DarkTheme.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <TextField fx:id="nicknameBox" alignment="CENTER" layoutX="300.0" layoutY="379.0" prefHeight="30.0" prefWidth="200.0" />
+            <TextField fx:id="nicknameBox" alignment="CENTER" layoutX="300.0" layoutY="379.0" prefHeight="30.0" prefWidth="200.0" promptText="Enter a nickname" />
             <Button fx:id="connectButton" alignment="CENTER" layoutX="339.0" layoutY="427.0" mnemonicParsing="false" onAction="#connect" prefHeight="30.0" prefWidth="122.0" style="-fx-background-color: #fa1e1e;" text="Connect" textAlignment="CENTER" textFill="WHITE">
                <font>
                   <Font name="Star Jedi" size="14.0" />
