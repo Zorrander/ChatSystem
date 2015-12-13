@@ -1,6 +1,5 @@
 package chatsystem;
 
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -53,6 +52,7 @@ public class UserListViewController extends ViewComponent {
 
     public void setInteraction() {
         userTable.setItems(state.getUserData());
+       
         // Listen for selection changes and show the person details when changed.
         userTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> state.showMessageBox(newValue));
