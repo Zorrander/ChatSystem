@@ -1,16 +1,10 @@
 package chatsystem;
 
-import java.io.IOException;
-import java.net.DatagramSocket;
+
 import java.net.SocketException;
 
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
-import javafx.scene.control.SplitPane;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.image.Image;
 
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -25,6 +19,7 @@ public class Chat {
     private Chat(Stage primaryStage) throws SocketException {
 
         this.window = primaryStage;
+        window.getIcons().add(new Image(Chat.class.getResourceAsStream("icon_final.png")));
 
         //initialisation du contexte        
         currentContext = new Context(this);
