@@ -26,7 +26,7 @@
                 </AnchorPane>
                 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #383838;">
                     <children>
-                        <Button fx:id="sendButton" layoutX="420.0" layoutY="76.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#send" prefHeight="35.0" prefWidth="120.0" style="-fx-border-color: none; -fx-background-color: #f3ae53; -fx-text-fill: black;" stylesheets="@DarkTheme.css" text="Send" AnchorPane.bottomAnchor="69.0">
+                        <Button fx:id="sendButton" layoutX="420.0" layoutY="76.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#send" prefHeight="35.0" prefWidth="120.0" style="-fx-border-color: none; -fx-background-color: #f3ae53; -fx-text-fill: black;" stylesheets="@DarkTheme.css" text="Send" AnchorPane.leftAnchor="419.0" AnchorPane.rightAnchor="11.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
@@ -41,7 +41,7 @@
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
-                  <Button fx:id="fileButton" layoutX="419.0" layoutY="9.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="35.0" prefWidth="120.0" style="-fx-border-color: none;" stylesheets="@DarkTheme.css" text="Add file" AnchorPane.bottomAnchor="136.0" AnchorPane.leftAnchor="419.0">
+                  <Button fx:id="fileButton" layoutX="419.0" layoutY="9.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="35.0" prefWidth="120.0" style="-fx-border-color: none;" stylesheets="@DarkTheme.css" text="Add file" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="9.0">
                      <cursor>
                         <Cursor fx:constant="HAND" />
                      </cursor></Button>
