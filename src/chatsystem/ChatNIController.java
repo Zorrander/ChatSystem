@@ -2,13 +2,10 @@ package chatsystem;
 
 import java.io.*;
 import java.net.*;
-import javafx.fxml.FXML;
 import common.Message;
 import static common.Message.MsgType.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 
 public class ChatNIController {
 
@@ -113,6 +110,10 @@ public class ChatNIController {
 
     private ConnectState getState() {
         return this.state;
+    }
+    
+    public User getUserSelected(){
+        return state.getUserSelected();
     }
     
     public void setCurrentFile(File file){

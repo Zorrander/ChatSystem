@@ -2,25 +2,21 @@ package chatsystem;
 
 import static chatsystem.Chat.window;
 import common.Message;
-import static common.Message.MsgType.FILE_REQUEST;
 import static common.Message.MsgType.TEXT_MESSAGE;
 import common.MessageEnvoye;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 
 public class MessageBoxController {
