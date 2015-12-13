@@ -1,8 +1,11 @@
 package chatsystem;
 
+import static chatsystem.Chat.window;
 import common.Message;
+import static common.Message.MsgType.FILE_REQUEST;
 import static common.Message.MsgType.TEXT_MESSAGE;
 import common.MessageEnvoye;
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,23 +14,30 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.FileChooser;
 
 public class MessageBoxController {
 
     @FXML
     private ListView<Message> messageTable;
-    
+
     @FXML
     private TextArea prompter;
     @FXML
     private Button sendButton;
     @FXML
     private Button disconnectButton;
+    @FXML
+    private Button fileButton;
+    @FXML
+    private CheckBox checkFile;
 
     Message newMessage;
 
@@ -49,9 +59,27 @@ public class MessageBoxController {
         prompter.clear();
         user.addMessage(new MessageEnvoye(TEXT_MESSAGE, textToSend, state.getId()));
         state.getController().send(newMessage, user.getAdress());
-
+        if (checkFile.isSelected()){
+           state.getController().sendFile(user.getAdress());
+           //réinitialisation checkBox
+           checkFile.setSelected(false);
+           checkFile.setText("Aucun fichier");          
+        }
     }
 
+    @FXML
+    public void chooseFile() throws IOException {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("File to send");        
+        final File selectedFile = fileChooser.showOpenDialog(window);
+        this.memorizeFile(selectedFile) ;
+    }
+    public void memorizeFile(File file){
+        checkFile.setSelected(true);
+        checkFile.setText(file.getName());
+        state.getController().setCurrentFile(file);
+    }
+    
     @FXML
     public void disconnect() {
         state.disconnect();

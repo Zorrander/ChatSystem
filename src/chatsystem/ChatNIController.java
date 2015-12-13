@@ -17,6 +17,7 @@ public class ChatNIController {
     private DatagramSocket socket;
     private SocketListener socketListener;
     private Thread t;
+    private File currentFile = null ;
 
     public ChatNIController(ConnectState state) {
         this.state = state;
@@ -52,7 +53,20 @@ public class ChatNIController {
 
         // envoie du message         
         socket.send(dataToSent);
+    } 
+    
+    public void sendFile(String destinataire) throws IOException {
+        sendFileRequest (this.currentFile, destinataire) ;
+    }  
+    
+
+    public void sendFileRequest(File file, String destinataire) throws IOException {
+        long sizeOfFile = file.getTotalSpace();
+        System.out.println(sizeOfFile);
+        Message fileRequest = new Message(FILE_REQUEST, "", state.getId(), (float) sizeOfFile);
+        state.getController().send(fileRequest, destinataire);
     }
+
 
     private void sendHello() {
         Message hello = new Message(HELLO, "", state.getId());
@@ -71,6 +85,7 @@ public class ChatNIController {
             Logger.getLogger(ChatNIController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
 
     void sendBye() {
         Message bye = new Message(BYE, "", state.getId());
@@ -98,6 +113,10 @@ public class ChatNIController {
 
     private ConnectState getState() {
         return this.state;
+    }
+    
+    public void setCurrentFile(File file){
+        this.currentFile = file ;
     }
     
     //Invoked by SocketListener

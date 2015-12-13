@@ -25,12 +25,14 @@
                 </AnchorPane>
                 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" stylesheets="@DarkTheme.css">
                     <children>
-                        <Button fx:id="sendButton" defaultButton="true" layoutX="215.0" layoutY="127.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#send" prefHeight="35.0" prefWidth="120.0" stylesheets="@DarkTheme.css" text="Send" AnchorPane.bottomAnchor="14.0" />
-                        <TextArea fx:id="prompter" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="110.0" prefWidth="528.0" promptText="Type Here..." stylesheets="@DarkTheme.css" wrapText="true" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                        <Button fx:id="sendButton" defaultButton="true" layoutX="420.0" layoutY="76.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#send" prefHeight="35.0" prefWidth="120.0" stylesheets="@DarkTheme.css" text="Send" AnchorPane.bottomAnchor="69.0" />
+                        <TextArea fx:id="prompter" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="160.0" prefWidth="400.0" promptText="Type Here..." stylesheets="@DarkTheme.css" wrapText="true" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                      <font>
                         <Font size="16.0" />
                      </font></TextArea>
-                  <Button fx:id="disconnectButton" cancelButton="true" layoutX="420.0" layoutY="127.0" mnemonicParsing="false" onAction="#disconnect" prefHeight="35.0" prefWidth="120.0" text="Disconnect" textAlignment="CENTER" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="10.0" />
+                  <Button fx:id="disconnectButton" cancelButton="true" layoutX="420.0" layoutY="135.0" mnemonicParsing="false" onAction="#disconnect" prefHeight="35.0" prefWidth="120.0" stylesheets="@DarkTheme.css" text="Disconnect" textAlignment="CENTER" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                  <Button fx:id="fileButton" layoutX="419.0" layoutY="9.0" mnemonicParsing="false" onAction="#chooseFile" prefHeight="35.0" prefWidth="120.0" stylesheets="@DarkTheme.css" text="Add file" AnchorPane.bottomAnchor="136.0" AnchorPane.leftAnchor="419.0" />
+                  <CheckBox fx:id="checkFile" layoutX="423.0" layoutY="51.0" mnemonicParsing="false" text="Aucun fichier" />
                     </children>
                 </AnchorPane>
             </items>
