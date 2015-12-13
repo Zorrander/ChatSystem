@@ -37,7 +37,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </Button>
-            <ImageView fitHeight="200.0" fitWidth="800.0" focusTraversable="true" layoutY="155.0" pickOnBounds="true">
+            <ImageView fitHeight="200.0" fitWidth="800.0" focusTraversable="true" layoutY="155.0" pickOnBounds="true" smooth="false">
                <image>
                   <Image url="@title.png" />
                </image>

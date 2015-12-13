@@ -18,10 +18,6 @@ import java.net.InetAddress;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.SplitPane;
-import javafx.scene.layout.AnchorPane;
-import javax.management.Notification;
 import org.controlsfx.control.Notifications;
 
 /**
