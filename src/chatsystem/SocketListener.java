@@ -75,20 +75,20 @@ public class SocketListener implements Runnable {
                         switch (messageRecu.getType()) {
                             case HELLO_REPLY:
                                 //DEBUG                               
-                                System.out.println("Recu un HELLO_REPLY de " + newUser.getName() + "@" + newUser.getAdress());
+                                //System.out.println("Recu un HELLO_REPLY de " + newUser.getName() + "@" + newUser.getAdress());
 
                                 controller.addUser(newUser); 
                                 break;
                             case HELLO:
                                 //DEBUG
-                                System.out.println("Recu un HELLO de " + newUser.getName() + "@" + newUser.getAdress());
+                                //System.out.println("Recu un HELLO de " + newUser.getName() + "@" + newUser.getAdress());
 
                                 controller.addUser(newUser);
                                 controller.sendHelloReply(newUser.getAdress());
                                 //@TODO : Afficher une notification de connexion !
                                 break;
                             case TEXT_MESSAGE:
-                                System.out.println("Recu un TEXT_MESS de " + newUser.getName() + "@" + newUser.getAdress());
+                               // System.out.println("Recu un TEXT_MESS de " + newUser.getName() + "@" + newUser.getAdress());
 
                                 String text = messageRecu.getContent();
                                 if ((text != null) && !text.isEmpty()) {
@@ -105,7 +105,7 @@ public class SocketListener implements Runnable {
                                 }
                                 break;
                             case BYE:
-                                System.out.println("Recu un BYE de " + newUser.getName() + "@" + newUser.getAdress());
+                               // System.out.println("Recu un BYE de " + newUser.getName() + "@" + newUser.getAdress());
                                 controller.deleteUser(newUser);
                                 //@TODO : Afficher une notification de déconnection !
                                 break;

@@ -10,7 +10,7 @@ public class User {
 
     private final StringProperty name;
     private final StringProperty ipAdress;
-    private ObservableList<Message> messageList = null ;
+    private ObservableList<Message> messageList = null;
 
     public User(String pseudo, String ipAdress) {
         this.name = new SimpleStringProperty(pseudo);
@@ -23,10 +23,11 @@ public class User {
     }
 
     public void addMessage(Message newMessage) {
-        this.messageList.add(newMessage) ;
+
+        this.messageList.add(newMessage);
     }
-    
-    public void clearMessage () {
+
+    public void clearMessage() {
         this.messageList.clear();
     }
 
@@ -56,9 +57,9 @@ public class User {
     public void setAdress(String newIpAdress) {
         this.name.set(newIpAdress);
     }
-    
+
     @Override
     public String toString() {
-        return this.name.get()+" "+this.ipAdress.get() ;
+        return this.name.get() + " " + this.ipAdress.get();
     }
 }
