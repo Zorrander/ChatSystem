@@ -13,6 +13,8 @@ public class ChatNIController {
     private final int numPort = 2042;
     private DatagramSocket socket;
     private SocketListener socketListener;
+    private SocketListenerTCP socketListenerTCP;
+
     private Thread t;
     private File currentFile = null ;
 
@@ -52,16 +54,26 @@ public class ChatNIController {
         socket.send(dataToSent);
     } 
     
-    public void sendFile(String destinataire) throws IOException {
-        sendFileRequest (this.currentFile, destinataire) ;
+    public void sendFile() throws IOException {
+        //etablissement de la connexionTCP
     }  
     
 
-    public void sendFileRequest(File file, String destinataire) throws IOException {
-        long sizeOfFile = file.getTotalSpace();
+    public void sendFileRequest(String destinataire) throws IOException {
+        long sizeOfFile = this.currentFile.getTotalSpace();
         System.out.println(sizeOfFile);
-        Message fileRequest = new Message(FILE_REQUEST, "", state.getId(), (float) sizeOfFile);
-        state.getController().send(fileRequest, destinataire);
+        Message fileRequest = new Message(FILE_REQUEST, this.currentFile.getName(), state.getId(), (float) sizeOfFile);
+        send(fileRequest, destinataire);
+    }
+    
+    public void sendFileAccept(String nameFile, String destinataire) throws IOException {
+        Message fileAccept = new Message(FILE_ACCEPT, nameFile, state.getId());
+        state.getController().send(fileAccept, destinataire);
+    }
+    
+    public void sendFileRefuse(String destinataire) throws IOException {
+        Message fileRefuse = new Message(FILE_REFUSE, "", state.getId());
+        state.getController().send(fileRefuse, destinataire);
     }
 
 
@@ -121,8 +133,20 @@ public class ChatNIController {
     }
     
     //Invoked by SocketListener
-    User getUser(User newUser) {
+    public User getUser(User newUser) {
         return this.getState().getUser(newUser);
+    }
+    
+    public int getPort(){
+        return this.numPort;
+    }
+    
+    public SocketListenerTCP getSocketListenerTCP() {
+        return socketListenerTCP;
+    }
+
+    public void setSocketListenerTCP(SocketListenerTCP socketListenerTCP) {
+        this.socketListenerTCP = socketListenerTCP;
     }
 
 }

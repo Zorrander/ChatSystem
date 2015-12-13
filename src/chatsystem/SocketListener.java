@@ -5,7 +5,6 @@
  */
 package chatsystem;
 
-
 import common.Message;
 import static common.Message.MsgType.TEXT_MESSAGE;
 import common.MessageRecu;
@@ -15,13 +14,15 @@ import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.ServerSocket;
+import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.SplitPane;
-import javafx.scene.layout.AnchorPane;
-import javax.management.Notification;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import org.controlsfx.control.Notifications;
 
 /**
@@ -95,13 +96,13 @@ public class SocketListener implements Runnable {
                                     Platform.runLater(() -> controller.sendHelloReply(newUser.getAdress()));
                                     //@TODO : Afficher une notification de connexion !
                                     break;
-                                case TEXT_MESSAGE: 
-                                    if (getUserConversation() == null){
-                                             Platform.runLater(() -> 
-                                                 Notifications.create().title("Nouveau message").text("Vous avez un nouveau message de "+ newUser.getName()).darkStyle().showInformation());
-                                    }else if(!(getUserConversation().getName().equals(newUser.getName())) || !(getUserConversation().getName().equals(newUser.getName()))) {
-                                    Platform.runLater(() -> 
-                                           Notifications.create().title("Nouveau message").text("Vous avez un nouveau message de "+ newUser.getName()).darkStyle().showInformation());
+                                case TEXT_MESSAGE:
+                                    if (getUserConversation() == null) {
+                                        Platform.runLater(()
+                                                -> Notifications.create().title("Nouveau message").text("Vous avez un nouveau message de " + newUser.getName()).darkStyle().showInformation());
+                                    } else if (!(getUserConversation().getName().equals(newUser.getName())) || !(getUserConversation().getName().equals(newUser.getName()))) {
+                                        Platform.runLater(()
+                                                -> Notifications.create().title("Nouveau message").text("Vous avez un nouveau message de " + newUser.getName()).darkStyle().showInformation());
                                     }
                                     System.out.println("Recu un TEXT_MESS de " + newUser.getName() + "@" + newUser.getAdress());
                                     String text = messageRecu.getContent();
@@ -124,13 +125,27 @@ public class SocketListener implements Runnable {
                                     //@TODO : Afficher une notification de déconnection !
                                     break;
                                 case FILE_REQUEST:
-                                    //@TODO - Not Supported Yet
+                                    Alert alert = new Alert(AlertType.CONFIRMATION);
+                                    alert.setTitle("File request received");
+                                    alert.setHeaderText(newUser.getName() + " veut envoyer" + messageRecu.getContent());
+                                    alert.setContentText("Le fichier fait " + messageRecu.getFileSize() + "Ko. Are you ok ?");
+
+                                    Optional<ButtonType> result = alert.showAndWait();
+                                    if (result.get() == ButtonType.OK) {
+                                        launchTCPServer() ;
+                                        sendOk(messageRecu.getContent(), newUser.getName());
+                                    } else {
+                                        sendNo(newUser.getName());
+                                    }
                                     break;
                                 case FILE_ACCEPT:
-                                    //@TODO - Not Supported Yet
+                                    Platform.runLater(()
+                                            -> Notifications.create().title("File Accepted").text(newUser.getName() + "a accepté le transfert du fichier.").darkStyle().showInformation());
+                                    tcpSending() ;
                                     break;
                                 case FILE_REFUSE:
-                                    //@TODO - Not Supported Yet
+                                    Platform.runLater(()
+                                            -> Notifications.create().title("File Refused").text(newUser.getName() + "a refusé le transfert du fichier.").darkStyle().showError());
                                     break;
                             }
 
@@ -158,10 +173,28 @@ public class SocketListener implements Runnable {
         return controller;
     }
     
-    public User getUserConversation(){
+    public void tcpSending() throws IOException {
+        controller.sendFile(); 
+    }
+
+    public void sendOk(String fileName, String destinataire) throws IOException {
+        controller.sendFileAccept(fileName, destinataire);
+    }
+
+    public void sendNo(String destinataire) throws IOException {
+        controller.sendFileRefuse(destinataire);
+    }
+
+    public User getUserConversation() {
         return controller.getUserSelected();
     }
 
+    public void launchTCPServer() throws IOException{
+        ServerSocket welcomeSocket = new ServerSocket(controller.getPort()) ;
+        controller.setSocketListenerTCP(new SocketListenerTCP(controller, welcomeSocket));
+        Thread t = new Thread(controller.getSocketListenerTCP());
+        t.start();
+    }
     public DatagramSocket getSocket() {
         return socket;
     }
