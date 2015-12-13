@@ -5,8 +5,15 @@
  */
 package chatsystem;
 
-import java.net.DatagramSocket;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -15,19 +22,37 @@ import java.net.ServerSocket;
 public class SocketListenerTCP implements Runnable {
 
     private final ChatNIController controller;
-    private final ServerSocket socket;
-    private boolean running;
+    private final ServerSocket socket;   
+    private final File myFile;
+    private final float size;
 
-    public SocketListenerTCP(ChatNIController controller, ServerSocket socket) {
+    public SocketListenerTCP(ChatNIController controller, ServerSocket socket, float fileSize, String fileName, String absolutePath) {
         this.controller = controller;
-        this.socket = socket;
-        this.running = true;
+        this.socket = socket;        
+        this.myFile = new File(absolutePath, fileName);
+        this.size = fileSize;
     }
-    
-    
+
     @Override
     public void run() {
-    
+
+        try {
+
+            try (Socket socketReceiver = socket.accept()) {
+                byte[] mybytearray = new byte[(int)size];
+                InputStream is = socketReceiver.getInputStream();
+                FileOutputStream fos = new FileOutputStream(myFile.getAbsolutePath());
+                try (BufferedOutputStream bos = new BufferedOutputStream(fos)) {
+                    int bytesRead = is.read(mybytearray, 0, mybytearray.length);
+                    bos.write(mybytearray, 0, bytesRead);
+                }
+            }
+
+        } catch (IOException ex)  {
+            Logger.getLogger(SocketListenerTCP.class.getName()).log(Level.SEVERE, null, ex);
+            
+
+        }
+
     }
-    
 }

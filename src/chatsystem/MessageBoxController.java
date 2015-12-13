@@ -75,7 +75,9 @@ public class MessageBoxController {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("File to send");
         final File selectedFile = fileChooser.showOpenDialog(window);
+        if ( selectedFile != null ) {
         this.memorizeFile(selectedFile);
+        }
     }
 
     public void memorizeFile(File file) {
@@ -86,8 +88,9 @@ public class MessageBoxController {
 
     @FXML
     public void areYouSure() {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.initStyle(UTILITY);
+        
+        Alert alert = new Alert(AlertType.CONFIRMATION);       
+        alert.initOwner(window);
         alert.setTitle("Disconnect");       
         alert.setHeaderText(null);
         alert.setContentText("Are you OK with disconnecting ?");

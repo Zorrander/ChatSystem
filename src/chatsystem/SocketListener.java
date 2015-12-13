@@ -5,10 +5,12 @@
  */
 package chatsystem;
 
+import static chatsystem.Chat.window;
 import common.Message;
 import static common.Message.MsgType.TEXT_MESSAGE;
 import common.MessageRecu;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
@@ -23,6 +25,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
 import org.controlsfx.control.Notifications;
 
 /**
@@ -55,11 +59,6 @@ public class SocketListener implements Runnable {
                     boolean isOurs = (packet.getAddress().getHostAddress().equals(InetAddress.getLocalHost().getHostAddress()));
 
                     if ((packet.getLength() != 0) && (!isOurs)) {
-                        /**
-                         * SocketReceiver socketReceiver = new
-                         * SocketReceiver(packet, this) ; Thread t = new
-                         * Thread(socketReceiver) ; t.start();
-                         */
 
                         ObjectInputStream ois;
                         try {
@@ -170,10 +169,15 @@ public class SocketListener implements Runnable {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            launchTCPServer();
-            sendOk(messageRecu.getContent(), newUser.getName());
+            DirectoryChooser directoryChooser = new DirectoryChooser();  
+                     //Show save file dialog
+            File file = directoryChooser.showDialog(window);
+           
+            
+            launchTCPServer(messageRecu.getFileSize(), messageRecu.getContent(), file.getAbsolutePath());
+            sendOk(messageRecu.getContent(), newUser.getAdress());
         } else {
-            sendNo(newUser.getName());
+            sendNo(newUser.getAdress());
         }
 
     }
@@ -202,9 +206,9 @@ public class SocketListener implements Runnable {
         return controller.getUserSelected();
     }
 
-    public void launchTCPServer() throws IOException {
+    public void launchTCPServer(float fileSize, String fileName, String absolutePath) throws IOException {
         ServerSocket welcomeSocket = new ServerSocket(controller.getPort());
-        controller.setSocketListenerTCP(new SocketListenerTCP(controller, welcomeSocket));
+        controller.setSocketListenerTCP(new SocketListenerTCP(controller, welcomeSocket, fileSize, fileName, absolutePath));
         Thread t = new Thread(controller.getSocketListenerTCP());
         t.start();
     }
