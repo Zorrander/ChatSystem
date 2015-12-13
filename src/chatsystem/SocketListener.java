@@ -5,6 +5,7 @@
  */
 package chatsystem;
 
+
 import common.Message;
 import static common.Message.MsgType.TEXT_MESSAGE;
 import common.MessageRecu;
@@ -17,6 +18,11 @@ import java.net.InetAddress;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.SplitPane;
+import javafx.scene.layout.AnchorPane;
+import javax.management.Notification;
+import org.controlsfx.control.Notifications;
 
 /**
  *
@@ -89,9 +95,15 @@ public class SocketListener implements Runnable {
                                     Platform.runLater(() -> controller.sendHelloReply(newUser.getAdress()));
                                     //@TODO : Afficher une notification de connexion !
                                     break;
-                                case TEXT_MESSAGE:
+                                case TEXT_MESSAGE: 
+                                    if (getUserConversation() == null){
+                                             Platform.runLater(() -> 
+                                                 Notifications.create().title("Nouveau message").text("Vous avez un nouveau message de "+ newUser.getName()).darkStyle().showInformation());
+                                    }else if(!(getUserConversation().getName().equals(newUser.getName())) || !(getUserConversation().getName().equals(newUser.getName()))) {
+                                    Platform.runLater(() -> 
+                                           Notifications.create().title("Nouveau message").text("Vous avez un nouveau message de "+ newUser.getName()).darkStyle().showInformation());
+                                    }
                                     System.out.println("Recu un TEXT_MESS de " + newUser.getName() + "@" + newUser.getAdress());
-
                                     String text = messageRecu.getContent();
                                     if ((text != null) && !text.isEmpty()) {
                                         User inList = controller.getUser(newUser);
@@ -144,6 +156,10 @@ public class SocketListener implements Runnable {
 
     public ChatNIController getController() {
         return controller;
+    }
+    
+    public User getUserConversation(){
+        return controller.getUserSelected();
     }
 
     public DatagramSocket getSocket() {

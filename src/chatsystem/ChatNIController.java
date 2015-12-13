@@ -112,6 +112,10 @@ public class ChatNIController {
         return this.state;
     }
     
+    public User getUserSelected(){
+        return state.getUserSelected();
+    }
+    
     public void setCurrentFile(File file){
         this.currentFile = file ;
     }

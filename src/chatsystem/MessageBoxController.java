@@ -4,6 +4,7 @@ import static chatsystem.Chat.window;
 import common.Message;
 import static common.Message.MsgType.TEXT_MESSAGE;
 import common.MessageEnvoye;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;

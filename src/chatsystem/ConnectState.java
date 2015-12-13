@@ -101,6 +101,10 @@ public class ConnectState implements State {
         return this.getUserList().getUser(newUser);
     }
 
+    public User getUserSelected(){
+         return userListController.getSelectedUser();
+    }
+    
     @Override
     public void updateContext(String nickname) {
         
