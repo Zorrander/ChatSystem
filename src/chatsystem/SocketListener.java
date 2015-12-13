@@ -16,6 +16,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
 
 /**
  *
@@ -25,12 +26,12 @@ public class SocketListener implements Runnable {
 
     private final ChatNIController controller;
     private final DatagramSocket socket;
-    private boolean running ;
+    private boolean running;
 
     public SocketListener(ChatNIController controller, DatagramSocket socket) {
         this.controller = controller;
         this.socket = socket;
-        this.running = true ;
+        this.running = true;
     }
 
     @Override
@@ -41,102 +42,107 @@ public class SocketListener implements Runnable {
         while (running) {
 
             try {
-                socket.receive(packet);
-                boolean isOurs = (packet.getAddress().getHostAddress().equals(InetAddress.getLocalHost().getHostAddress()));
 
-                if ((packet.getLength() != 0) && (!isOurs)) {
-                    /**
-                     * SocketReceiver socketReceiver = new
-                     * SocketReceiver(packet, this) ; Thread t = new
-                     * Thread(socketReceiver) ; t.start();
-                     */
+                try {
+                    socket.receive(packet);
+                    boolean isOurs = (packet.getAddress().getHostAddress().equals(InetAddress.getLocalHost().getHostAddress()));
 
-                    ObjectInputStream ois ;
-                    try {
-                        ois = new ObjectInputStream(new ByteArrayInputStream(packet.getData()));
-                        Message messageRecu = (Message) ois.readObject();
-                        
+                    if ((packet.getLength() != 0) && (!isOurs)) {
                         /**
-                         * TRAITEMENT DU MESSAGE EN FONCTION DE SON TYPE
+                         * SocketReceiver socketReceiver = new
+                         * SocketReceiver(packet, this) ; Thread t = new
+                         * Thread(socketReceiver) ; t.start();
                          */
 
-                        /**
-                         * Declaration de variables communes à certains cases,
-                         * utiles pour recup les infos
-                         */
-                        User newUser;
+                        ObjectInputStream ois;
+                        try {
+                            ois = new ObjectInputStream(new ByteArrayInputStream(packet.getData()));
+                            Message messageRecu = (Message) ois.readObject();
 
-                        if (messageRecu.getSender().isEmpty()) {
-                            newUser = new User("anonyme", packet.getAddress().getHostAddress());
-                        } else {
-                            newUser = new User(messageRecu.getSender(), packet.getAddress().getHostAddress());
-                        }
+                            /**
+                             * TRAITEMENT DU MESSAGE EN FONCTION DE SON TYPE
+                             */
+                            /**
+                             * Declaration de variables communes à certains
+                             * cases, utiles pour recup les infos
+                             */
+                            User newUser;
 
-                        switch (messageRecu.getType()) {
-                            case HELLO_REPLY:
-                                //DEBUG                               
-                                //System.out.println("Recu un HELLO_REPLY de " + newUser.getName() + "@" + newUser.getAdress());
+                            if (messageRecu.getSender().isEmpty()) {
+                                newUser = new User("anonyme", packet.getAddress().getHostAddress());
+                            } else {
+                                newUser = new User(messageRecu.getSender(), packet.getAddress().getHostAddress());
+                            }
 
-                                controller.addUser(newUser); 
-                                break;
-                            case HELLO:
-                                //DEBUG
-                                //System.out.println("Recu un HELLO de " + newUser.getName() + "@" + newUser.getAdress());
+                            switch (messageRecu.getType()) {
+                                case HELLO_REPLY:
+                                    //DEBUG
+                                    System.out.println("Recu un HELLO_REPLY de " + newUser.getName() + "@" + newUser.getAdress());
 
-                                controller.addUser(newUser);
-                                controller.sendHelloReply(newUser.getAdress());
-                                //@TODO : Afficher une notification de connexion !
-                                break;
-                            case TEXT_MESSAGE:
-                               // System.out.println("Recu un TEXT_MESS de " + newUser.getName() + "@" + newUser.getAdress());
+                                    Platform.runLater(() -> controller.addUser(newUser));
+                                    break;
+                                case HELLO:
+                                    //DEBUG
+                                    System.out.println("Recu un HELLO de " + newUser.getName() + "@" + newUser.getAdress());
 
-                                String text = messageRecu.getContent();
-                                if ((text != null) && !text.isEmpty()) {
-                                    User inList = controller.getUser(newUser);
-                                    MessageRecu messageAStocker = new MessageRecu(TEXT_MESSAGE,messageRecu.getContent(),messageRecu.getSender()) ;
-                                    //Si l'USER existe bel et bien dans notre liste, on rajoute le message !
-                                    if (inList != null) {
-                                        
-                                        inList.addMessage(messageAStocker);
-                                    } else {
-                                        controller.addUser(newUser);
-                                        newUser.addMessage(messageAStocker);
+                                    Platform.runLater(() -> controller.addUser(newUser));
+                                    Platform.runLater(() -> controller.sendHelloReply(newUser.getAdress()));
+                                    //@TODO : Afficher une notification de connexion !
+                                    break;
+                                case TEXT_MESSAGE:
+                                    System.out.println("Recu un TEXT_MESS de " + newUser.getName() + "@" + newUser.getAdress());
+
+                                    String text = messageRecu.getContent();
+                                    if ((text != null) && !text.isEmpty()) {
+                                        User inList = controller.getUser(newUser);
+                                        MessageRecu messageAStocker = new MessageRecu(TEXT_MESSAGE, messageRecu.getContent(), messageRecu.getSender());
+                                        //Si l'USER existe bel et bien dans notre liste, on rajoute le message !
+                                        if (inList != null) {
+
+                                            Platform.runLater(() -> inList.addMessage(messageAStocker));
+                                        } else {
+                                            controller.addUser(newUser);
+                                            Platform.runLater(() -> newUser.addMessage(messageAStocker));
+                                        }
                                     }
-                                }
-                                break;
-                            case BYE:
-                               // System.out.println("Recu un BYE de " + newUser.getName() + "@" + newUser.getAdress());
-                                controller.deleteUser(newUser);
-                                //@TODO : Afficher une notification de déconnection !
-                                break;
-                            case FILE_REQUEST:
-                                //@TODO - Not Supported Yet
-                                break;
-                            case FILE_ACCEPT:
-                                //@TODO - Not Supported Yet
-                                break;
-                            case FILE_REFUSE:
-                                //@TODO - Not Supported Yet
-                                break;
-                        }                    
+                                    break;
+                                case BYE:
+                                    System.out.println("Recu un BYE de " + newUser.getName() + "@" + newUser.getAdress());
+                                    Platform.runLater(() -> controller.deleteUser(newUser));
+                                    //@TODO : Afficher une notification de déconnection !
+                                    break;
+                                case FILE_REQUEST:
+                                    //@TODO - Not Supported Yet
+                                    break;
+                                case FILE_ACCEPT:
+                                    //@TODO - Not Supported Yet
+                                    break;
+                                case FILE_REFUSE:
+                                    //@TODO - Not Supported Yet
+                                    break;
+                            }
 
-                    ois.close();
-                }catch (IOException | ClassNotFoundException ex) {
-                        Logger.getLogger(SocketListener.class.getName()).log(Level.SEVERE, null, ex);
+                            ois.close();
+                        } catch (IOException | ClassNotFoundException ex) {
+                            Logger.getLogger(SocketListener.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
-            }
-        }catch (IOException ex) {
+                } catch (IOException ex) {
+                    Logger.getLogger(SocketListener.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                Thread.sleep(500);
+            } catch (InterruptedException ex) {
                 Logger.getLogger(SocketListener.class.getName()).log(Level.SEVERE, null, ex);
             }
-
-    }
-}
-    
-    public void stopRunning(){
-       this.running = false ; 
+        }
     }
 
-public ChatNIController getController() {
+    public void stopRunning() {
+        this.running = false;
+    }
+
+    public ChatNIController getController() {
         return controller;
     }
 

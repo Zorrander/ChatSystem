@@ -73,8 +73,7 @@ public class ConnectState implements State {
             try {
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(ConnectState.class.getResource("MessageBox.fxml"));
-                AnchorPane messageBox = (AnchorPane) loader.load();             
-                
+                AnchorPane messageBox = (AnchorPane) loader.load();
 
                 this.getLayout().getItems().set(1, messageBox);
 
@@ -104,10 +103,25 @@ public class ConnectState implements State {
 
     @Override
     public void updateContext(String nickname) {
+        
         controllerNI.sendBye();
-        controllerNI.stop();
+        controllerNI.stop();        
+        
+        userList.clear();
+        /**
+         * TEST
+         */
+
         context.setState(new DisconnectState(context));
 
+    }
+
+    void addUser(User newUser) {
+        this.getUserList().addViewListener(newUser);
+    }
+
+    void disconnect() {
+        context.disconnect(); //To change body of generated methods, choose Tools | Templates.
     }
 
     public String getId() {
@@ -140,14 +154,6 @@ public class ConnectState implements State {
 
     public UserList getUserList() {
         return userList;
-    }
-
-    void addUser(User newUser) {
-        this.getUserList().addViewListener(newUser) ;
-    }
-
-    void disconnect() {
-        context.disconnect(); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

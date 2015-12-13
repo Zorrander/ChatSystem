@@ -23,7 +23,6 @@ public class User {
     }
 
     public void addMessage(Message newMessage) {
-
         this.messageList.add(newMessage);
     }
 

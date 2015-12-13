@@ -69,4 +69,8 @@ public class UserList {
         return usersList;
     }
 
+    void clear() {
+        usersList.clear();
+    }
+
 }
