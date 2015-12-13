@@ -125,23 +125,19 @@ public class SocketListener implements Runnable {
                                     //@TODO : Afficher une notification de déconnection !
                                     break;
                                 case FILE_REQUEST:
-                                    Alert alert = new Alert(AlertType.CONFIRMATION);
-                                    alert.setTitle("File request received");
-                                    alert.setHeaderText(newUser.getName() + " veut envoyer" + messageRecu.getContent());
-                                    alert.setContentText("Le fichier fait " + messageRecu.getFileSize() + "Ko. Are you ok ?");
+                                    Platform.runLater(() -> {
+                                        try {
+                                            fileAlert(newUser, messageRecu);
+                                        } catch (IOException ex) {
+                                            Logger.getLogger(SocketListener.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                    });
 
-                                    Optional<ButtonType> result = alert.showAndWait();
-                                    if (result.get() == ButtonType.OK) {
-                                        launchTCPServer() ;
-                                        sendOk(messageRecu.getContent(), newUser.getName());
-                                    } else {
-                                        sendNo(newUser.getName());
-                                    }
                                     break;
                                 case FILE_ACCEPT:
                                     Platform.runLater(()
                                             -> Notifications.create().title("File Accepted").text(newUser.getName() + "a accepté le transfert du fichier.").darkStyle().showInformation());
-                                    tcpSending() ;
+                                    tcpSending();
                                     break;
                                 case FILE_REFUSE:
                                     Platform.runLater(()
@@ -165,6 +161,23 @@ public class SocketListener implements Runnable {
         }
     }
 
+    public void fileAlert(User newUser, Message messageRecu) throws IOException {
+
+        Alert alert = new Alert(AlertType.CONFIRMATION);
+        alert.setTitle("File request received");
+        alert.setHeaderText(newUser.getName() + " veut envoyer" + messageRecu.getContent());
+        alert.setContentText("Le fichier fait " + messageRecu.getFileSize() + "Ko. Are you ok ?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            launchTCPServer();
+            sendOk(messageRecu.getContent(), newUser.getName());
+        } else {
+            sendNo(newUser.getName());
+        }
+
+    }
+
     public void stopRunning() {
         this.running = false;
     }
@@ -172,9 +185,9 @@ public class SocketListener implements Runnable {
     public ChatNIController getController() {
         return controller;
     }
-    
+
     public void tcpSending() throws IOException {
-        controller.sendFile(); 
+        controller.sendFile();
     }
 
     public void sendOk(String fileName, String destinataire) throws IOException {
@@ -189,12 +202,13 @@ public class SocketListener implements Runnable {
         return controller.getUserSelected();
     }
 
-    public void launchTCPServer() throws IOException{
-        ServerSocket welcomeSocket = new ServerSocket(controller.getPort()) ;
+    public void launchTCPServer() throws IOException {
+        ServerSocket welcomeSocket = new ServerSocket(controller.getPort());
         controller.setSocketListenerTCP(new SocketListenerTCP(controller, welcomeSocket));
         Thread t = new Thread(controller.getSocketListenerTCP());
         t.start();
     }
+
     public DatagramSocket getSocket() {
         return socket;
     }

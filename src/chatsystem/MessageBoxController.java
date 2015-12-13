@@ -60,19 +60,13 @@ public class MessageBoxController {
         prompter.clear();
         user.addMessage(new MessageEnvoye(TEXT_MESSAGE, textToSend, state.getId()));
         state.getController().send(newMessage, user.getAdress());
-<<<<<<< HEAD
+
         if (checkFile.isSelected()){
            state.getController().sendFileRequest(user.getAdress());
            //réinitialisation checkBox
            checkFile.setSelected(false);
-           checkFile.setText("Aucun fichier");          
-=======
-        if (checkFile.isSelected()) {
-            state.getController().sendFile(user.getAdress());
-            //réinitialisation checkBox
-            checkFile.setSelected(false);
-            checkFile.setText("Aucun fichier");
->>>>>>> origin/master
+           checkFile.setText("Aucun fichier");         
+
         }
     }
 
