@@ -136,7 +136,7 @@ public class SocketListener implements Runnable {
                                 case FILE_ACCEPT:
                                     Platform.runLater(()
                                             -> Notifications.create().title("File Accepted").text(newUser.getName() + "a accepté le transfert du fichier.").darkStyle().showInformation());
-                                    tcpSending(newUser.getName());
+                                    tcpSending(newUser.getAdress());
                                     break;
                                 case FILE_REFUSE:
                                     Platform.runLater(()
