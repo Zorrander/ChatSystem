@@ -70,7 +70,7 @@ public class ChatNIController {
     }
 
     public void sendFileRequest(String destinataire) throws IOException {
-        long sizeOfFile = this.currentFile.getTotalSpace();
+        long sizeOfFile = this.currentFile.length();
         System.out.println(sizeOfFile);
         Message fileRequest = new Message(FILE_REQUEST, this.currentFile.getName(), state.getId(), (float) sizeOfFile);
         send(fileRequest, destinataire);
@@ -116,6 +116,10 @@ public class ChatNIController {
     public void stop() {
         socketListener.stopRunning();
         socket.close();
+    }
+    
+    public void stopTCP() throws IOException{
+        socketListener.getSocketTCP().close();
     }
 
     //Invoked by SocketListener

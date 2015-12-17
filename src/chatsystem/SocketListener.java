@@ -36,6 +36,7 @@ import org.controlsfx.control.Notifications;
 public class SocketListener implements Runnable {
 
     private final ChatNIController controller;
+    private ServerSocket welcomeSocket ;
     private final DatagramSocket socket;
     private boolean running;
 
@@ -207,14 +208,21 @@ public class SocketListener implements Runnable {
     }
 
     public void launchTCPServer(float fileSize, String fileName, String absolutePath) throws IOException {
-        ServerSocket welcomeSocket = new ServerSocket(controller.getPort());
+        welcomeSocket = new ServerSocket(controller.getPort());
         controller.setSocketListenerTCP(new SocketListenerTCP(controller, welcomeSocket, fileSize, fileName, absolutePath));
         Thread t = new Thread(controller.getSocketListenerTCP());
         t.start();
     }
+    
+    public void stopTCP() throws IOException{
+        welcomeSocket.close();
+    }
 
     public DatagramSocket getSocket() {
         return socket;
+    }
+    public ServerSocket getSocketTCP() {
+        return welcomeSocket;
     }
 
 }

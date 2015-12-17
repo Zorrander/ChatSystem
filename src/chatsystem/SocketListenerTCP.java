@@ -51,6 +51,10 @@ public class SocketListenerTCP implements Runnable {
             
 
         }
-
+        notify();
+    }
+    
+    public void notifyEndTCP() throws IOException{
+        controller.stopTCP();
     }
 }
