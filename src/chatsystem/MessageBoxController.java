@@ -114,7 +114,12 @@ public class MessageBoxController {
             public void handle(KeyEvent ke) {
                 if (ke.getCode().equals(KeyCode.ENTER)) {
                     try {
+                        if (ke.isControlDown() || ke.isAltDown() || ke.isShiftDown()) {
+                         
+                        } else {
                         send();
+                        ke.consume();
+                        }//Permet d'éviter le retour à la ligne                       
                     } catch (IOException ex) {
                         Logger.getLogger(DisconnectViewController.class.getName()).log(Level.SEVERE, null, ex);
                     }
