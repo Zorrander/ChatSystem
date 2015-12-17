@@ -136,7 +136,7 @@ public class SocketListener implements Runnable {
                                 case FILE_ACCEPT:
                                     Platform.runLater(()
                                             -> Notifications.create().title("File Accepted").text(newUser.getName() + "a accepté le transfert du fichier.").darkStyle().showInformation());
-                                    tcpSending();
+                                    tcpSending(newUser.getName());
                                     break;
                                 case FILE_REFUSE:
                                     Platform.runLater(()
@@ -190,8 +190,8 @@ public class SocketListener implements Runnable {
         return controller;
     }
 
-    public void tcpSending() throws IOException {
-        controller.sendFile();
+    public void tcpSending(String destinataire) throws IOException {
+        controller.sendFile(destinataire);
     }
 
     public void sendOk(String fileName, String destinataire) throws IOException {

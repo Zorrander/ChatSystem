@@ -37,7 +37,6 @@ public class SocketListenerTCP implements Runnable {
     public void run() {
 
         try {
-
             try (Socket socketReceiver = socket.accept()) {
                 byte[] mybytearray = new byte[(int)size];
                 InputStream is = socketReceiver.getInputStream();
@@ -47,7 +46,6 @@ public class SocketListenerTCP implements Runnable {
                     bos.write(mybytearray, 0, bytesRead);
                 }
             }
-
         } catch (IOException ex)  {
             Logger.getLogger(SocketListenerTCP.class.getName()).log(Level.SEVERE, null, ex);
             

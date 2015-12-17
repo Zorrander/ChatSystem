@@ -16,7 +16,7 @@ public class ChatNIController {
     private SocketListenerTCP socketListenerTCP;
 
     private Thread t;
-    private File currentFile = null ;
+    private File currentFile = null;
 
     public ChatNIController(ConnectState state) {
         this.state = state;
@@ -52,12 +52,22 @@ public class ChatNIController {
 
         // envoie du message         
         socket.send(dataToSent);
-    } 
-    
-    public void sendFile() throws IOException {
-        //etablissement de la connexionTCP
-    }  
-    
+    }
+
+    public void sendFile(String destinataire) throws IOException {
+        InetAddress serveur = InetAddress.getByName(destinataire);
+        Socket socket = new Socket( serveur, numPort);
+        byte[] bytearray = new byte[(int) currentFile.length()];
+        FileInputStream fin = new FileInputStream(currentFile);
+        BufferedInputStream bin = new BufferedInputStream(fin);
+        bin.read(bytearray, 0, bytearray.length);
+        OutputStream os = socket.getOutputStream();
+        System.out.println("Sending Files...");
+        os.write(bytearray, 0, bytearray.length);
+        os.flush();
+        socket.close();
+
+    }
 
     public void sendFileRequest(String destinataire) throws IOException {
         long sizeOfFile = this.currentFile.getTotalSpace();
@@ -65,17 +75,16 @@ public class ChatNIController {
         Message fileRequest = new Message(FILE_REQUEST, this.currentFile.getName(), state.getId(), (float) sizeOfFile);
         send(fileRequest, destinataire);
     }
-    
+
     public void sendFileAccept(String nameFile, String destinataire) throws IOException {
         Message fileAccept = new Message(FILE_ACCEPT, nameFile, state.getId());
         state.getController().send(fileAccept, destinataire);
     }
-    
+
     public void sendFileRefuse(String destinataire) throws IOException {
         Message fileRefuse = new Message(FILE_REFUSE, "", state.getId());
         state.getController().send(fileRefuse, destinataire);
     }
-
 
     private void sendHello() {
         Message hello = new Message(HELLO, "", state.getId());
@@ -94,7 +103,6 @@ public class ChatNIController {
             Logger.getLogger(ChatNIController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
 
     void sendBye() {
         Message bye = new Message(BYE, "", state.getId());
@@ -114,7 +122,7 @@ public class ChatNIController {
     void addUser(User newUser) {
         this.getState().addUser(newUser);
     }
-    
+
     //Invoked by SocketListener
     void deleteUser(User newUser) {
         this.getState().deleteUser(newUser);
@@ -123,24 +131,24 @@ public class ChatNIController {
     private ConnectState getState() {
         return this.state;
     }
-    
-    public User getUserSelected(){
+
+    public User getUserSelected() {
         return state.getUserSelected();
     }
-    
-    public void setCurrentFile(File file){
-        this.currentFile = file ;
+
+    public void setCurrentFile(File file) {
+        this.currentFile = file;
     }
-    
+
     //Invoked by SocketListener
     public User getUser(User newUser) {
         return this.getState().getUser(newUser);
     }
-    
-    public int getPort(){
+
+    public int getPort() {
         return this.numPort;
     }
-    
+
     public SocketListenerTCP getSocketListenerTCP() {
         return socketListenerTCP;
     }
