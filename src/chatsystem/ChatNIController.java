@@ -6,6 +6,8 @@ import common.Message;
 import static common.Message.MsgType.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Platform;
+import org.controlsfx.control.Notifications;
 
 public class ChatNIController {
 
@@ -119,6 +121,8 @@ public class ChatNIController {
     }
     
     public void stopTCP() throws IOException{
+        
+        Platform.runLater( ()-> Notifications.create().title("File received").text("Fichier reçu !").darkStyle().showInformation()) ;       
         socketListener.getSocketTCP().close();
     }
 

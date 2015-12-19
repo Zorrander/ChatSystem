@@ -93,6 +93,7 @@ public class SocketListener implements Runnable {
                                     System.out.println("Recu un HELLO de " + newUser.getName() + "@" + newUser.getAdress());
 
                                     Platform.runLater(() -> controller.addUser(newUser));
+                                    Platform.runLater(() -> Notifications.create().title("Connexion").text(newUser.getName() + " s'est connecté !").darkStyle().showInformation()) ;
                                     Platform.runLater(() -> controller.sendHelloReply(newUser.getAdress()));
                                     //@TODO : Afficher une notification de connexion !
                                     break;
@@ -120,7 +121,7 @@ public class SocketListener implements Runnable {
                                     }
                                     break;
                                 case BYE:
-                                    System.out.println("Recu un BYE de " + newUser.getName() + "@" + newUser.getAdress());
+                                    Platform.runLater(() -> Notifications.create().title("Déconnexion").text(newUser.getName() + " s'est déconnecté.").darkStyle().showInformation()) ;
                                     Platform.runLater(() -> controller.deleteUser(newUser));
                                     //@TODO : Afficher une notification de déconnection !
                                     break;
@@ -136,12 +137,12 @@ public class SocketListener implements Runnable {
                                     break;
                                 case FILE_ACCEPT:
                                     Platform.runLater(()
-                                            -> Notifications.create().title("File Accepted").text(newUser.getName() + "a accepté le transfert du fichier.").darkStyle().showInformation());
+                                            -> Notifications.create().title("File Accepted").text(newUser.getName() + " a accepté le transfert du fichier.").darkStyle().showInformation());
                                     tcpSending(newUser.getAdress());
                                     break;
                                 case FILE_REFUSE:
                                     Platform.runLater(()
-                                            -> Notifications.create().title("File Refused").text(newUser.getName() + "a refusé le transfert du fichier.").darkStyle().showError());
+                                            -> Notifications.create().title("File Refused").text(newUser.getName() + " a refusé le transfert du fichier.").darkStyle().showError());
                                     break;
                             }
 
@@ -166,7 +167,7 @@ public class SocketListener implements Runnable {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("File request received");
         alert.setHeaderText(newUser.getName() + " veut envoyer" + messageRecu.getContent());
-        alert.setContentText("Le fichier fait " + messageRecu.getFileSize() + "Ko. Are you ok ?");
+        alert.setContentText("Le fichier fait " + messageRecu.getFileSize() + " Octets Are you ok ?");
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {

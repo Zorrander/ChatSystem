@@ -22,13 +22,13 @@ import java.util.logging.Logger;
 public class SocketListenerTCP implements Runnable {
 
     private final ChatNIController controller;
-    private final ServerSocket socket;   
+    private final ServerSocket socket;
     private final File myFile;
     private final float size;
 
     public SocketListenerTCP(ChatNIController controller, ServerSocket socket, float fileSize, String fileName, String absolutePath) {
         this.controller = controller;
-        this.socket = socket;        
+        this.socket = socket;
         this.myFile = new File(absolutePath, fileName);
         this.size = fileSize;
     }
@@ -38,23 +38,31 @@ public class SocketListenerTCP implements Runnable {
 
         try {
             try (Socket socketReceiver = socket.accept()) {
-                byte[] mybytearray = new byte[(int)size];
+                byte[] mybytearray = new byte[(int) size];
                 InputStream is = socketReceiver.getInputStream();
                 FileOutputStream fos = new FileOutputStream(myFile.getAbsolutePath());
                 try (BufferedOutputStream bos = new BufferedOutputStream(fos)) {
-                    int bytesRead = is.read(mybytearray, 0, mybytearray.length);
-                    bos.write(mybytearray, 0, bytesRead);
+                    int bytesRead;
+                    while ((bytesRead = is.read(mybytearray, 0, mybytearray.length)) > 0) {
+                        bos.write(mybytearray, 0, bytesRead);
+                    }
+                    is.close();
+                    bos.close();
+                }
+                try {
+                    this.notifyEndTCP();
+                } catch (IOException ex) {
+                    Logger.getLogger(SocketListenerTCP.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
-        } catch (IOException ex)  {
+        } catch (IOException ex) {
             Logger.getLogger(SocketListenerTCP.class.getName()).log(Level.SEVERE, null, ex);
-            
 
         }
-        notify();
+
     }
-    
-    public void notifyEndTCP() throws IOException{
+
+    public void notifyEndTCP() throws IOException {
         controller.stopTCP();
     }
 }

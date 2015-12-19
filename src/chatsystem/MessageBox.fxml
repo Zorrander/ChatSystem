@@ -15,7 +15,7 @@
             <items>
                 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" stylesheets="@DarkTheme.css" SplitPane.resizableWithParent="false">
                     <children>
-                  <ListView fx:id="messageTable" mouseTransparent="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <ListView fx:id="messageTable" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <opaqueInsets>
                         <Insets />
                      </opaqueInsets></ListView>
